@@ -29,7 +29,7 @@ const projects = [
         title: "Sistem Pametnih Semafora",
         description: "Analiza problematike urbane sinhronizacije. Glavni izazov je eliminacija 'uskih grla' i optimizacija protoka vozila kroz dinamičku promenu intervala svetala u realnom vremenu.",
         images: [
-            "Assets/Gif2/IMG_202605123_232926283.png,
+            "Assets/Gif2/IMG_202605123_232926283.png",
             "Assets/Gif2/IMG_202605123_232935720.jpeg",
             "Assets/Gif2/IMG_202605123_232946692.jpeg",
             "Assets/Gif2/IMG_202605123_232955543.jpeg",
