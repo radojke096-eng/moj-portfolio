@@ -1,8 +1,6 @@
 /**
  * DYNAMIC DRIVE ENGINE - MODULARNI SISTEM
- * /**
- * DYNAMIC DRIVE ENGINE - MODULARNI SISTEM
- * Projekti su organizovani u niz objekata.
+ * Svi projekti i njihove slike su definisani ovde.
  */
 
 const projects = [
@@ -28,7 +26,7 @@ const projects = [
     {
         id: "projekat2",
         title: "Sistem Pametnih Semafora",
-        description: "Analiza problematike urbane sinhronizacije. Glavni izazov je eliminacija 'uskih grla' i optimizacija protoka vozila kroz dinamičku promenu intervala svetala u realnom vremenu.",
+        description: "Analiza problematike urbane sinhronizacije. Glavni izazov je eliminacija 'uskih grla' i optimizacija protoka vozila.",
         images: [
             "Assets/Gif2/IMG_202605123_232926283.png",
             "Assets/Gif2/IMG_202605123_232935720.jpeg",
@@ -41,7 +39,7 @@ const projects = [
     } 
 ];
 
-// --- LOGIKA MOTORA ---
+// --- LOGIKA MOTORA (Samo jedan primerak ove logike sme da postoji) ---
 
 const container = document.getElementById('portfolio-grid');
 let intervals = {}; 
@@ -52,20 +50,20 @@ function renderProjects() {
     container.innerHTML = ""; 
     
     projects.forEach(proj => {
-        speeds[proj.id] = 2000; // Početna brzina 2 sekunde
+        speeds[proj.id] = 2000; // Podrazumevana brzina
         
         container.innerHTML += `
             <div class="card" id="card-${proj.id}">
-                <div class="image-wrapper" style="background: #000; overflow: hidden; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: center; min-height: 250px;">
-                    <img id="img-${proj.id}" src="${proj.images[0]}" style="width:100%; height:auto; transition: opacity 0.2s;">
+                <div class="image-wrapper">
+                    <img id="img-${proj.id}" src="${proj.images[0]}">
                 </div>
                 <div style="padding:20px;">
                     <span style="color:#00f2ff; font-size:0.7rem; font-weight:bold; text-transform:uppercase;">[ ${proj.type} ]</span>
-                    <h3 style="margin: 10px 0; color: #fff; font-size: 1.2rem;">${proj.title}</h3>
-                    <p style="font-size:0.85rem; color:#888; line-height:1.5;">${proj.description}</p>
-                    <p id="status-${proj.id}" style="font-size:0.7rem; color:#444; font-family:monospace; margin-top:10px;">FRAME: 1 / ${proj.images.length}</p>
+                    <h3 style="margin: 10px 0; color: #fff;">${proj.title}</h3>
+                    <p style="font-size:0.85rem; color:#888;">${proj.description}</p>
+                    <p id="status-${proj.id}" style="font-size:0.7rem; color:#444; font-family:monospace;">FRAME: 1 / ${proj.images.length}</p>
                     
-                    <div class="controls" style="margin-top:15px; padding-top:15px; border-top:1px solid #222;">
+                    <div class="controls">
                         <button onclick="updateSpeed('${proj.id}', 2000)" class="speed-btn">1x</button>
                         <button onclick="updateSpeed('${proj.id}', 1000)" class="speed-btn">2x</button>
                         <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">Turbo</button>
@@ -99,10 +97,8 @@ function updateSpeed(id, newSpeed) {
     startSlideshow(id);
 }
 
-// Pokretanje pri učitavanju
+// Inicijalizacija
 document.addEventListener('DOMContentLoaded', renderProjects);
-su organizovani u niz objekata.
- */
 
 const projects = [
     {
