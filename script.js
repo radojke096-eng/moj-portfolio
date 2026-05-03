@@ -39,11 +39,11 @@ const projects = [
     },
     {
         id: "projekat3",
-        title: "Arduino Mikrokontrolerski Sistem",
-        description: "Hardverska implementacija upravljačke logike. Sadrži šeme povezivanja, Arduino kod i fizičke komponente sistema.",
+        title: "portfolio",
+        description: "github kao baza. open source project for all!!"
         images: [
-            "Documents/Arduino/slika1.jpg", 
-            "Documents/Arduino/slika2.jpg"
+             "Assets/Screenshot_2026-05-04-01-55-12-149_com.android.chrome.jpg"
+        
         ],
         type: "HARDWARE_ENGINE"
     }
