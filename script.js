@@ -1,8 +1,3 @@
-/**
- * DYNAMIC DRIVE ENGINE - MODULARNI SISTEM
- * Svi projekti i njihove slike su definisani ovde.
- */
-
 const projects = [
     {
         id: "projekat1",
@@ -39,8 +34,6 @@ const projects = [
     } 
 ];
 
-// --- LOGIKA MOTORA (Samo jedan primerak ove logike sme da postoji) ---
-
 const container = document.getElementById('portfolio-grid');
 let intervals = {}; 
 let speeds = {};    
@@ -50,23 +43,22 @@ function renderProjects() {
     container.innerHTML = ""; 
     
     projects.forEach(proj => {
-        speeds[proj.id] = 2000; // Podrazumevana brzina
+        speeds[proj.id] = 2000;
         
         container.innerHTML += `
             <div class="card" id="card-${proj.id}">
-                <div class="image-wrapper">
-                    <img id="img-${proj.id}" src="${proj.images[0]}">
+                <div class="image-wrapper" style="background: #000; display: flex; align-items: center; justify-content: center; min-height: 250px;">
+                    <img id="img-${proj.id}" src="${proj.images[0]}" style="width:100%; height:auto;">
                 </div>
                 <div style="padding:20px;">
-                    <span style="color:#00f2ff; font-size:0.7rem; font-weight:bold; text-transform:uppercase;">[ ${proj.type} ]</span>
+                    <span style="color:#00f2ff; font-size:0.7rem; font-weight:bold;">[ ${proj.type} ]</span>
                     <h3 style="margin: 10px 0; color: #fff;">${proj.title}</h3>
                     <p style="font-size:0.85rem; color:#888;">${proj.description}</p>
                     <p id="status-${proj.id}" style="font-size:0.7rem; color:#444; font-family:monospace;">FRAME: 1 / ${proj.images.length}</p>
                     
-                    <div class="controls">
+                    <div class="controls" style="margin-top:15px; display: flex; gap: 10px;">
                         <button onclick="updateSpeed('${proj.id}', 2000)" class="speed-btn">1x</button>
-                        <button onclick="updateSpeed('${proj.id}', 1000)" class="speed-btn">2x</button>
-                        <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">Turbo</button>
+                        <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">TURBO</button>
                     </div>
                 </div>
             </div>
@@ -78,7 +70,6 @@ function renderProjects() {
 function startSlideshow(id) {
     const proj = projects.find(p => p.id === id);
     let index = 0;
-    
     if(intervals[id]) clearInterval(intervals[id]);
     
     intervals[id] = setInterval(() => {
@@ -97,5 +88,4 @@ function updateSpeed(id, newSpeed) {
     startSlideshow(id);
 }
 
-// Inicijalizacija
 document.addEventListener('DOMContentLoaded', renderProjects);
