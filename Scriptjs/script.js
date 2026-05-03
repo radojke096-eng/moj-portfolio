@@ -1,39 +1,100 @@
-const galleryImages = [
-    "Assets/Gif1/IMG_202605123_223152732.png",
-    "Assets/Gif1/IMG_202605123_223209086.png",
-    "Assets/Gif1/IMG_202605123_223213038.png",
-    "Assets/Gif1/IMG_202605123_223217253.png",
-    "Assets/Gif1/IMG_202605123_223235142.png",
-   "Assets/Gif1/IMG_202605123_223240944.png",
-    "Assets/Gif1/IMG_202605123_223253284.png",
-    "Assets/Gif1/IMG_202605123_223255700.png",
-    "Assets/Gif1/IMG_202605123_223310080.png",
-    "Assets/Gif1/IMG_202605123_223318077.png",
-    "Assets/Gif1/IMG_202605123_223325369.png",
-    // Dodaj ovde putanje do svih 10+ slika
+/**
+ * DYNAMIC DRIVE ENGINE - MODULARNI SISTEM
+ * Tvoj prvi blok slika je učitan u 'projekat1'.
+ */
+
+const projects = [
+    {
+        id: "projekat1",
+        title: "Proces rada sistema - Faza 1",
+        description: "Inicijalna sekvenca obrade podataka. Svaki kadar predstavlja jedan korak u izvršavanju algoritma sa precizno definisanim pauzama.",
+        images: [
+            "Assets/Gif1/IMG_202605123_223152732.png",
+            "Assets/Gif1/IMG_202605123_223209086.png",
+            "Assets/Gif1/IMG_202605123_223213038.png",
+            "Assets/Gif1/IMG_202605123_223217253.png",
+            "Assets/Gif1/IMG_202605123_223235142.png",
+            "Assets/Gif1/IMG_202605123_223240944.png",
+            "Assets/Gif1/IMG_202605123_223253284.png",
+            "Assets/Gif1/IMG_202605123_223255700.png",
+            "Assets/Gif1/IMG_202605123_223310080.png",
+            "Assets/Gif1/IMG_202605123_223318077.png",
+            "Assets/Gif1/IMG_202605123_223325369.png"
+        ],
+        type: "DYNAMIC_SEQUENCE"
+    },
+    {
+        id: "projekat2",
+        title: "Drugi Sistemski Modul",
+        description: "Ovde unesi opis za tvoj drugi set slika. Možeš objasniti razliku u odnosu na prvi proces ili dodati tehničke specifikacije.",
+        images: [
+            "Assets/Gif2/tvoja_slika_1.png",
+            "Assets/Gif2/tvoja_slika_2.png"
+            // Dodaj linkove za tvoj drugi set slika ovde
+        ],
+        type: "ALPHA_TEST"
+    }
 ];
 
-let currentIndex = 0;
+// --- LOGIKA MOTORA ---
+
 const container = document.getElementById('portfolio-grid');
+let intervals = {}; 
+let speeds = {};    
 
-// Kreiramo bazu za slideshow
-container.innerHTML = `
-    <div class="card">
-        <img id="slideshow-target" src="${galleryImages[0]}" style="width:100%; height:auto;">
-        <div style="padding:15px;">
-            <span style="color:#00f2ff; font-size:0.7rem;">[ DYNAMIC_SEQUENCE ]</span>
-            <h3>Proces rada sistema</h3>
-            <p id="status-text">Prikaz slike 1 od ${galleryImages.length}</p>
-        </div>
-    </div>
-`;
+function renderProjects() {
+    if (!container) return;
+    container.innerHTML = ""; 
+    
+    projects.forEach(proj => {
+        speeds[proj.id] = 2000; // Početna brzina
+        
+        container.innerHTML += `
+            <div class="card" id="card-${proj.id}">
+                <div class="image-wrapper" style="background: #000; overflow: hidden; border-bottom: 1px solid #1a1a1a;">
+                    <img id="img-${proj.id}" src="${proj.images[0]}" style="width:100%; height:auto; transition: opacity 0.2s;">
+                </div>
+                <div style="padding:20px;">
+                    <span style="color:#00f2ff; font-size:0.7rem; font-weight:bold; text-transform:uppercase;">[ ${proj.type} ]</span>
+                    <h3 style="margin: 10px 0; color: #fff; font-size: 1.2rem;">${proj.title}</h3>
+                    <p style="font-size:0.85rem; color:#888; line-height:1.5;">${proj.description}</p>
+                    <p id="status-${proj.id}" style="font-size:0.7rem; color:#444; font-family:monospace; margin-top:10px;">FRAME: 1 / ${proj.images.length}</p>
+                    
+                    <div class="controls" style="margin-top:15px; padding-top:15px; border-top:1px solid #222;">
+                        <button onclick="updateSpeed('${proj.id}', 2000)" class="speed-btn">1x</button>
+                        <button onclick="updateSpeed('${proj.id}', 1000)" class="speed-btn">2x</button>
+                        <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">Turbo</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        startSlideshow(proj.id);
+    });
+}
 
-// Funkcija koja menja slike sa pauzom od 2 sekunde
-function startSlideshow() {
-    const imgElement = document.getElementById('slideshow-target');
-    const statusElement = document.getElementById('status-text');
+function startSlideshow(id) {
+    const proj = projects.find(p => p.id === id);
+    let index = 0;
+    if(intervals[id]) clearInterval(intervals[id]);
+    
+    intervals[id] = setInterval(() => {
+        index = (index + 1) % proj.images.length;
+        const img = document.getElementById(`img-${id}`);
+        const stat = document.getElementById(`status-${id}`);
+        if(img) {
+            img.src = proj.images[index];
+            if(stat) stat.innerText = `FRAME: ${index + 1} / ${proj.images.length}`;
+        }
+    }, speeds[id]);
+}
 
-    setInterval(() => {
+function updateSpeed(id, newSpeed) {
+    speeds[id] = newSpeed;
+    startSlideshow(id);
+}
+
+// Inicijalizacija pri učitavanju
+document.addEventListener('DOMContentLoaded', renderProjects);
         currentIndex = (currentIndex + 1) % galleryImages.length;
         imgElement.src = galleryImages[currentIndex];
         statusElement.innerText = `Prikaz slike ${currentIndex + 1} od ${galleryImages.length}`;
