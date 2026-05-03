@@ -1,6 +1,76 @@
-body { background: #08080a; color: #00f2ff; font-family: monospace; padding: 20px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-.card { border: 1px solid #222; border-radius: 10px; background: #111; overflow: hidden; }
-.card img { width: 100%; height: 200px; object-fit: cover; }
-.info { padding: 10px; }
+/* Glavni stilovi sistema */
+body {
+    background: #050505;
+    color: #eee;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+header {
+    width: 100%;
+    max-width: 1200px;
+    border-left: 4px solid #00f2ff;
+    padding-left: 20px;
+    margin-bottom: 40px;
+}
+
+h1 {
+    color: #00f2ff;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Grid sistem za kartice */
+#portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Stil same kartice */
+.card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.card:hover {
+    border-color: #00f2ff;
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+}
+
+/* Dugmići za brzinu */
+.speed-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #888;
+    padding: 6px 12px;
+    margin-right: 5px;
+    font-family: monospace;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.speed-btn:hover {
+    border-color: #00f2ff;
+    color: #00f2ff;
+    background: rgba(0, 242, 255, 0.05);
+}
+
+/* Responzivnost za mobilne telefone */
+@media (max-width: 600px) {
+    #portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+}
