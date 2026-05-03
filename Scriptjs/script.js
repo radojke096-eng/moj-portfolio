@@ -2,7 +2,7 @@ const galleryImages = [
     "Assets/Gif1/IMG_202605123_223152732.png",
     "Assets/Gif1/IMG_202605123_223209086.png",
     "Assets/Gif1/IMG_202605123_223213038.png",
-    "Assets/Gif1/IMG_202605123_223217253.png,
+    "Assets/Gif1/IMG_202605123_223217253.png",
     "Assets/Gif1/IMG_202605123_223235142.png",
    "Assets/Gif1/IMG_202605123_223240944.png",
     "Assets/Gif1/IMG_202605123_223253284.png",
