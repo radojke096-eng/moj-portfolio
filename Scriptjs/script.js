@@ -24,16 +24,22 @@ const projects = [
         type: "DYNAMIC_SEQUENCE"
     },
     {
+    
         id: "projekat2",
-        title: "Drugi Sistemski Modul",
-        description: "Ovde unesi opis za tvoj drugi set slika. Možeš objasniti razliku u odnosu na prvi proces ili dodati tehničke specifikacije.",
+        title: "Sistem Pametnih Semafora",
+        description: "Analiza problematike urbane sinhronizacije. Glavni izazov je eliminacija 'uskih grla' i optimizacija protoka vozila kroz dinamičku promenu intervala svetala u realnom vremenu.",
         images: [
-            "Assets/Gif2/tvoja_slika_1.png",
-            "Assets/Gif2/tvoja_slika_2.png"
-            // Dodaj linkove za tvoj drugi set slika ovde
+            "Assets/Gif2/IMG_202605123_232926283.png,
+            "Assets/Gif2/IMG_202605123_232935720.jpeg",
+            "Assets/Gif2/IMG_202605123_232946692.jpeg",
+            "Assets/Gif2/IMG_202605123_232955543.jpeg",
+            "Assets/Gif2/IMG_202605123_233006945.png",
+            "Assets/Gif2/1777844979682.png"
+            
+            // Ovde dodaj sve slike iz Gif2 foldera koje si postavio na GitHub
         ],
-        type: "ALPHA_TEST"
-    }
+        type: "TRAFFIC_LOGIC_V1"
+    } 
 ];
 
 // --- LOGIKA MOTORA ---
