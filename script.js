@@ -16,7 +16,7 @@ const projects = [
             "Assets/Gif1/IMG_202605123_223248096.png",
             "Assets/Gif1/IMG_202605123_223253284.png",
             "Assets/Gif1/IMG_202605123_223255700.png",
-            "Assets/Gif1/Faktura.jpg",
+            "Assets/Gif1/Faktura.png",
             "Assets/Gif1/IMG_202605123_223318077.png",
             "Assets/Gif1/IMG_202605123_223321334.png",
             "Assets/Gif1/IMG_202605123_223325369.png"
@@ -47,7 +47,7 @@ const projects = [
         description: "portfolio github based, unlimited media show localy.",
         images: [
              "Assets/Portfolio.png", // Promenjeno u .png
-            "Assets/Portfolio.png"
+            "Assets/Portfolio2.png"
         ],
         type: "PORTFOLIO_ENGINE",
         link: "https://github.com/ke096-eng/ke096-eng.github.io",
