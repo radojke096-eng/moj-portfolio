@@ -1,121 +1,64 @@
-/* Osnovna estetika */
 body {
     background-color: #0a0a0a;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    line-height: 1.6;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Grid za kartice - pravi 2 ili 3 kolone zavisno od širine ekrana */
-#portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
 
-/* Stil kartice */
-.card {
-    background: #141414;
-    border: 1px solid #222;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    border-color: #00f2ff;
-}
-
-/* Kontejner za sliku unutar kartice */
-.image-wrapper {
-    height: 250px; /* Fiksna visina za uniforman izgled */
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.image-wrapper img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Čuva razmeru tvojih slika/dijagrama */
-}
-
-/* Dugmići za kontrolu brzine */
-.speed-btn {
-    background: transparent;
-    border: 1px solid #444;
-    color: #aaa;
-    padding: 5px 15px;
-    margin-right: 8px;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
-    font-size: 0.8rem;
-    border-radius: 3px;
-    transition: all 0.2s ease;
-}
-
-.speed-btn:hover {
-    border-color: #00f2ff;
-    color: #00f2ff;
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
-}
-
-/* Responzivnost za mobilne uređaje */
-@media (max-width: 480px) {
-    #portfolio-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .card {
-        margin-bottom: 20px;
-    }
-}
 .card {
     background: #111;
     border: 1px solid #222;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
     border-color: #00f2ff;
     transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
 }
 
-/* Dugmići za brzinu */
+/* Kontrole unutar kartice */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
 .speed-btn {
     background: transparent;
-    border: 1px solid #333;
+    border: 1px solid #444;
     color: #888;
     padding: 6px 12px;
-    margin-right: 5px;
+    font-size: 0.7rem;
     font-family: monospace;
     cursor: pointer;
-    border-radius: 4px;
     transition: 0.2s;
 }
 
 .speed-btn:hover {
     border-color: #00f2ff;
     color: #00f2ff;
-    background: rgba(0, 242, 255, 0.05);
 }
 
-/* Responzivnost za mobilne telefone */
-@media (max-width: 600px) {
-    #portfolio-grid {
-        grid-template-columns: 1fr;
-    }
+.card-link-btn {
+    display: inline-block;
+    color: #00f2ff;
+    text-decoration: none;
+    border: 1px solid #00f2ff;
+    padding: 8px 15px;
+    font-size: 0.7rem;
+    font-family: monospace;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.card-link-btn:hover {
+    background: #00f2ff;
+    color: #000;
 }
