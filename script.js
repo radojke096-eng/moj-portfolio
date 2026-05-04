@@ -1,8 +1,8 @@
 const projects = [
     {
         id: "projekat1",
-        title: "Proces rada sistema - Faza 1",
-        description: "Inicijalna sekvenca obrade podataka. Svaki kadar predstavlja jedan korak u izvršavanju algoritma.",
+        title: "SISTEMSKI_PROCES_V1",
+        description: "Analiza podataka i sekvencijalna obrada algoritama. Vizuelni prikaz faza rada sistema.",
         images: [
             "Assets/Gif1/IMG_202605123_223152732.png",
             "Assets/Gif1/IMG_202605123_223209086.png",
@@ -15,35 +15,38 @@ const projects = [
     },
     {
         id: "projekat2",
-        title: "Sistem Pametnih Semafora",
-        description: "Analiza urbane sinhronizacije i optimizacija protoka vozila pomoću senzora.",
+        title: "TRAFFIC_CONTROL_LOGIC",
+        description: "Simulacija pametnih semafora i optimizacija saobraćaja u realnom vremenu.",
         images: [
             "Assets/Gif2/IMG_202605123_232926283.png",
             "Assets/Gif2/IMG_202605123_232935720.jpeg",
-            "Assets/Gif2/IMG_202605123_232946692.jpeg"
+            "Assets/Gif2/IMG_202605123_232946692.jpeg",
+            "Assets/Gif2/IMG_202605123_232955543.jpeg",
+            "Assets/Gif2/IMG_202605123_233006945.png",
+            "Assets/Gif2/1777844979682.png"
         ],
-        type: "TRAFFIC_LOGIC_V1",
+        type: "TRAFFIC_LOGIC",
         link: "https://github.com/radojkeC/moj-portfolio/tree/main/Assets/Gif2",
         linkText: "POGLEDAJ_LOGIKU"
     },
     {
         id: "projekat3",
-        title: "Arduino Mikrokontrolerski Sistem",
-        description: "Hardverska implementacija i šeme povezivanja Arduina sa senzorima i semaforima.",
+        title: "portfolio html javascript gitHub base css",
+        description: "portfolio github based, unlimited media show localy.",
         images: [
-             "Assets/Screenshot_2026-05-04-01-55-12-149_com.android.chrome.jpg",
-             "Assets/Screenshot_2026-05-04-02-05-24-531_com.android.chrome.jpg"
+             "Assets/portfolio.jpg",
+             "Assets/portfolio2.jpg"
         ],
-        type: "HARDWARE_ENGINE",
-        link: "https://github.com/radojkeC/moj-portfolio/tree/main/Documents/Arduino",
-        linkText: "OTVORI_ARDUINO_KOD"
+        type: "PORTFOLIO_ENGINE",
+        link: "https://github.com/radojkeC/moj-portfolio",
+        linkText: "GLAVNI_REPOSITORY"
     }
 ];
 
 const container = document.getElementById('portfolio-grid');
 let intervals = {}; 
 let speeds = {};    
-let isPaused = {}; // Status pauze za svaki projekat
+let isPaused = {};
 
 function renderProjects() {
     if (!container) return;
@@ -54,26 +57,22 @@ function renderProjects() {
         isPaused[proj.id] = false;
         
         container.innerHTML += `
-            <div class="card" id="card-${proj.id}">
-                <div class="image-wrapper" style="background: #000; display: flex; align-items: center; justify-content: center; min-height: 250px; overflow: hidden;">
-                    <img id="img-${proj.id}" src="${proj.images[0]}" style="width:100%; height:auto;">
+            <div class="card">
+                <div class="image-wrapper">
+                    <img id="img-${proj.id}" src="${proj.images[0]}">
                 </div>
                 <div style="padding:20px;">
-                    <span style="color:#00f2ff; font-size:0.7rem; font-weight:bold;">[ ${proj.type} ]</span>
-                    <h3 style="margin: 10px 0; color: #fff;">${proj.title}</h3>
-                    <p style="font-size:0.85rem; color:#888;">${proj.description}</p>
+                    <span style="color:#00f2ff; font-size:0.65rem;">[ ${proj.type} ]</span>
+                    <h3 style="margin: 10px 0; color:#fff; font-size:1rem;">${proj.title}</h3>
+                    <p style="font-size:0.8rem; color:#888; margin-bottom:15px; min-height:40px;">${proj.description}</p>
                     
-                    <div style="margin-top: 15px;">
-                        <a href="${proj.link}" target="_blank" style="display: inline-block; color: #00f2ff; text-decoration: none; border: 1px solid #00f2ff; padding: 8px 15px; font-size: 0.7rem; font-family: monospace;">
-                            [ ${proj.linkText} ]
-                        </a>
-                    </div>
+                    <a href="${proj.link}" target="_blank" class="card-link-btn">[ ${proj.linkText} ]</a>
 
-                    <div class="controls" style="margin-top:15px; display: flex; flex-wrap: wrap; gap: 8px;">
+                    <div class="controls" style="display: flex; gap: 5px; flex-wrap: wrap;">
                         <button onclick="updateSpeed('${proj.id}', 2000)" class="speed-btn">1x</button>
                         <button onclick="updateSpeed('${proj.id}', 1000)" class="speed-btn">2x</button>
-                        <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">TURBO</button>
-                        <button id="btn-pause-${proj.id}" onclick="togglePause('${proj.id}')" class="speed-btn" style="border-color: #ff4d4d; color: #ff4d4d;">PAUZA</button>
+                        <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">Turbo</button>
+                        <button id="btn-pause-${proj.id}" onclick="togglePause('${proj.id}')" class="speed-btn" style="border-color:#ff4d4d; color:#ff4d4d;">Pauza</button>
                     </div>
                 </div>
             </div>
@@ -83,16 +82,10 @@ function renderProjects() {
 }
 
 function startSlideshow(id) {
-    if (isPaused[id]) return; // Ne pokreći ako je na pauzi
-
+    if (isPaused[id]) return;
     const proj = projects.find(p => p.id === id);
-    if (!proj || proj.images.length === 0) return;
-    
-    let index = Array.from(proj.images).indexOf(document.getElementById(`img-${id}`).getAttribute('src'));
-    if (index === -1) index = 0;
-
+    let index = 0;
     if(intervals[id]) clearInterval(intervals[id]);
-    
     intervals[id] = setInterval(() => {
         index = (index + 1) % proj.images.length;
         const img = document.getElementById(`img-${id}`);
@@ -101,8 +94,9 @@ function startSlideshow(id) {
 }
 
 function updateSpeed(id, newSpeed) {
-    isPaused[id] = false; // Automatski nastavi rad ako se promeni brzina
-    document.getElementById(`btn-pause-${id}`).innerText = "PAUZA";
+    isPaused[id] = false;
+    const btn = document.getElementById(`btn-pause-${id}`);
+    if(btn) { btn.innerText = "Pauza"; btn.style.borderColor = "#ff4d4d"; btn.style.color = "#ff4d4d"; }
     speeds[id] = newSpeed;
     startSlideshow(id);
 }
@@ -112,12 +106,12 @@ function togglePause(id) {
     if (!isPaused[id]) {
         clearInterval(intervals[id]);
         isPaused[id] = true;
-        btn.innerText = "NASTAVI";
+        btn.innerText = "Nastavi";
         btn.style.borderColor = "#00ff00";
         btn.style.color = "#00ff00";
     } else {
         isPaused[id] = false;
-        btn.innerText = "PAUZA";
+        btn.innerText = "Pauza";
         btn.style.borderColor = "#ff4d4d";
         btn.style.color = "#ff4d4d";
         startSlideshow(id);
