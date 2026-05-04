@@ -43,7 +43,7 @@ const projects = [
         description: "GitHub kao baza. Open source projekat dostupan svima za analizu i učenje.",
         images: [
              "Assets/Portfolio.jpg",
-           "Assets/portfolio2"
+           "Assets/Portfolio2.jpg"
         ],
         type: "HARDWARE_ENGINE"
     }
