@@ -42,7 +42,8 @@ const projects = [
         title: "Portfolio",
         description: "GitHub kao baza. Open source projekat dostupan svima za analizu i učenje.",
         images: [
-             "Assets/Screenshot_2026-05-04-01-55-12-149_com.android.chrome.jpg"
+             "Assets/Screenshot_2026-05-04-01-55-12-149_com.android.chrome.jpg",
+           "Assets/Screenshot_2026-05-04-02-05-24-561_com.android.chrome-edit.jpg"
         ],
         type: "HARDWARE_ENGINE"
     }
