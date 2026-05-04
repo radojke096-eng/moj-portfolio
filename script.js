@@ -39,11 +39,10 @@ const projects = [
     },
     {
         id: "projekat3",
-        title: "portfolio",
-        description: "github kao baza. open source project for all!!"
+        title: "Portfolio",
+        description: "GitHub kao baza. Open source projekat dostupan svima za analizu i učenje.",
         images: [
              "Assets/Screenshot_2026-05-04-01-55-12-149_com.android.chrome.jpg"
-        
         ],
         type: "HARDWARE_ENGINE"
     }
@@ -107,5 +106,5 @@ function updateSpeed(id, newSpeed) {
     startSlideshow(id);
 }
 
-// Pokretanje sistema nakon učitavanja stranice
+// Pokretanje pri učitavanju
 document.addEventListener('DOMContentLoaded', renderProjects);
