@@ -46,7 +46,7 @@ const projects = [
         title: "portfolio html javascript gitHub base css",
         description: "portfolio github based, unlimited media show localy.",
         images: [
-             "Assets/Portfolio.png" // Promenjeno u .png
+             "Assets/Portfolio.png", // Promenjeno u .png
             "Assets/Portfolio.png"
         ],
         type: "PORTFOLIO_ENGINE",
