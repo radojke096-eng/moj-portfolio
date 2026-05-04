@@ -7,7 +7,19 @@ const projects = [
             "Assets/Gif1/IMG_202605123_223152732.png",
             "Assets/Gif1/IMG_202605123_223209086.png",
             "Assets/Gif1/IMG_202605123_223213038.png",
-            "Assets/Gif1/IMG_202605123_223217253.png"
+            "Assets/Gif1/IMG_202605123_223217253.png",
+            "Assets/Gif1/IMG_202605123_223224543.png",
+            "Assets/Gif1/IMG_202605123_223235142.png",
+            "Assets/Gif1/IMG_202605123_223238239.png",
+            "Assets/Gif1/IMG_202605123_223240944.png",
+            "Assets/Gif1/IMG_202605123_223244664.png",
+            "Assets/Gif1/IMG_202605123_223248096.png",
+            "Assets/Gif1/IMG_202605123_223253284.png",
+            "Assets/Gif1/IMG_202605123_223255700.png",
+            "Assets/Gif1/IMG_202605123_23310080.png",
+            "Assets/Gif1/IMG_202605123_223318077.png",
+            "Assets/Gif1/IMG_202605123_223321334.png",
+            "Assets/Gif1/IMG_202605123_223325369.png"
         ],
         type: "DYNAMIC_SEQUENCE",
         link: "https://github.com/radojkeC/moj-portfolio/tree/main/Assets/Gif1",
@@ -59,12 +71,12 @@ function renderProjects() {
         container.innerHTML += `
             <div class="card">
                 <div class="image-wrapper">
-                    <img id="img-${proj.id}" src="${proj.images[0]}">
+                    <img id="img-${proj.id}" src="${proj.images[0]}" alt="Project Image">
                 </div>
                 <div style="padding:20px;">
                     <span style="color:#00f2ff; font-size:0.65rem;">[ ${proj.type} ]</span>
-                    <h3 style="margin: 10px 0; color:#fff; font-size:1rem;">${proj.title}</h3>
-                    <p style="font-size:0.8rem; color:#888; margin-bottom:15px; height:40px;">${proj.description}</p>
+                    <h3 style="margin: 10px 0; color:#fff; font-size:1rem; font-family: monospace;">${proj.title}</h3>
+                    <p style="font-size:0.8rem; color:#888; margin-bottom:15px; min-height:40px;">${proj.description}</p>
                     
                     <a href="${proj.link}" target="_blank" style="display: inline-block; color: #fff; text-decoration: none; border: 1px solid #444; padding: 10px 15px; font-size: 0.75rem; font-family: monospace; margin-bottom: 15px; background: #222;">
                         [ ${proj.linkText} ]
@@ -73,6 +85,7 @@ function renderProjects() {
                     <div class="controls" style="display: flex; gap: 5px; flex-wrap: wrap;">
                         <button onclick="updateSpeed('${proj.id}', 2000)" class="speed-btn">1x</button>
                         <button onclick="updateSpeed('${proj.id}', 1000)" class="speed-btn">2x</button>
+                        <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">Turbo</button>
                         <button id="btn-pause-${proj.id}" onclick="togglePause('${proj.id}')" class="speed-btn" style="border-color:#ff4d4d; color:#ff4d4d;">Pauza</button>
                     </div>
                 </div>
@@ -96,6 +109,8 @@ function startSlideshow(id) {
 
 function updateSpeed(id, newSpeed) {
     isPaused[id] = false;
+    const btn = document.getElementById(`btn-pause-${id}`);
+    if(btn) { btn.innerText = "Pauza"; btn.style.borderColor = "#ff4d4d"; btn.style.color = "#ff4d4d"; }
     speeds[id] = newSpeed;
     startSlideshow(id);
 }
@@ -106,9 +121,13 @@ function togglePause(id) {
         clearInterval(intervals[id]);
         isPaused[id] = true;
         btn.innerText = "Nastavi";
+        btn.style.borderColor = "#00ff00";
+        btn.style.color = "#00ff00";
     } else {
         isPaused[id] = false;
         btn.innerText = "Pauza";
+        btn.style.borderColor = "#ff4d4d";
+        btn.style.color = "#ff4d4d";
         startSlideshow(id);
     }
 }
