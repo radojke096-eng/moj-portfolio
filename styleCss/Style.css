@@ -16,6 +16,8 @@ body {
     border: 1px solid #222;
     border-radius: 4px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     transition: 0.3s;
 }
 
@@ -23,12 +25,30 @@ body {
     border-color: #00f2ff;
 }
 
-/* Kontrole unutar kartice */
-.controls {
+/* FIKSNI OKVIR ZA SLIKE */
+.image-wrapper {
+    width: 100%;
+    height: 250px;
+    background-color: #000;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Drži celu sliku unutar 250px visine */
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid #444;
+    padding: 12px 20px;
+    font-size: 0.75rem;
+    font-family: monospace;
 }
 
 .speed-btn {
@@ -39,7 +59,7 @@ body {
     font-size: 0.7rem;
     font-family: monospace;
     cursor: pointer;
-    text-transform: uppercase;
+    transition: 0.2s;
 }
 
 .speed-btn:hover {
@@ -55,11 +75,6 @@ body {
     padding: 10px 15px;
     font-size: 0.75rem;
     font-family: monospace;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     background: #222;
-}
-
-.card-link-btn:hover {
-    border-color: #00f2ff;
-    color: #00f2ff;
 }
