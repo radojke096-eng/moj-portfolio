@@ -16,13 +16,13 @@ const projects = [
             "Assets/Gif1/IMG_202605123_223248096.png",
             "Assets/Gif1/IMG_202605123_223253284.png",
             "Assets/Gif1/IMG_202605123_223255700.png",
-            "Assets/Gif1/Faktura.png",
+            "Assets/Gif1/IMG_202605123_23310080.png",
             "Assets/Gif1/IMG_202605123_223318077.png",
             "Assets/Gif1/IMG_202605123_223321334.png",
             "Assets/Gif1/IMG_202605123_223325369.png"
         ],
         type: "DYNAMIC_SEQUENCE",
-        link: "https://github.com/radojkeC/moj-portfolio/tree/main/Assets/Gif1",
+        link: "https://github.com/ke096-eng/moj-portfolio/tree/main/Assets/Gif1",
         linkText: "POGLEDAJ_SOURCE"
     },
     {
@@ -38,7 +38,7 @@ const projects = [
             "Assets/Gif2/1777844979682.png"
         ],
         type: "TRAFFIC_LOGIC",
-        link: "https://github.com/radojkeC/moj-portfolio/tree/main/Assets/Gif2",
+        link: "https://github.com/ke096-eng/moj-portfolio/tree/main/Assets/Gif2",
         linkText: "POGLEDAJ_LOGIKU"
     },
     {
@@ -46,11 +46,11 @@ const projects = [
         title: "portfolio html javascript gitHub base css",
         description: "portfolio github based, unlimited media show localy.",
         images: [
-             "Assets/Portfolio.jpg",
-             "Assets/Portfolio2.jpg"
+             "Assets/portfolio.jpg",
+             "Assets/portfolio2.jpg"
         ],
         type: "PORTFOLIO_ENGINE",
-        link: "https://github.com/radojkeC/moj-portfolio",
+        link: "https://github.com/ke096-eng/moj-portfolio",
         linkText: "GLAVNI_REPOSITORY"
     }
 ];
