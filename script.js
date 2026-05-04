@@ -22,7 +22,7 @@ const projects = [
             "Assets/Gif1/IMG_202605123_223325369.png"
         ],
         type: "DYNAMIC_SEQUENCE",
-        link: "https://github.com/ke096-eng/moj-portfolio/tree/main/Assets/Gif1",
+        link: "https://github.com/ke096-eng/ke096-eng.github.io/tree/main/Assets/Gif1",
         linkText: "POGLEDAJ_SOURCE"
     },
     {
@@ -38,7 +38,7 @@ const projects = [
             "Assets/Gif2/1777844979682.png"
         ],
         type: "TRAFFIC_LOGIC",
-        link: "https://github.com/ke096-eng/moj-portfolio/tree/main/Assets/Gif2",
+        link: "https://github.com/ke096-eng/ke096-eng.github.io/tree/main/Assets/Gif2",
         linkText: "POGLEDAJ_LOGIKU"
     },
     {
@@ -46,15 +46,15 @@ const projects = [
         title: "portfolio html javascript gitHub base css",
         description: "portfolio github based, unlimited media show localy.",
         images: [
-             "Assets/portfolio.jpg",
-             "Assets/portfolio2.jpg"
+             "Assets/portfolio.png" // Promenjeno u .png
         ],
         type: "PORTFOLIO_ENGINE",
-        link: "https://github.com/ke096-eng/moj-portfolio",
+        link: "https://github.com/ke096-eng/ke096-eng.github.io",
         linkText: "GLAVNI_REPOSITORY"
     }
 ];
 
+// Ostatak koda za render i slideshow ostaje isti kao u prethodnim verzijama
 const container = document.getElementById('portfolio-grid');
 let intervals = {}; 
 let speeds = {};    
