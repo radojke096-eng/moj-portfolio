@@ -46,8 +46,8 @@ const projects = [
         title: "portfolio html javascript gitHub base css",
         description: "portfolio github based, unlimited media show localy.",
         images: [
-             "Assets/Portfolio.png", // Promenjeno u .png
-            "Assets/Portfolio2.png"
+             "Assets/Portfolio.jpg,"// Promenjeno u .png
+            "Assets/Portfolio2.jpg"
         ],
         type: "PORTFOLIO_ENGINE",
         link: "https://github.com/ke096-eng/ke096-eng.github.io",
