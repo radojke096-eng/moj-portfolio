@@ -44,6 +44,11 @@ body {
     padding: 12px 20px;
     font-size: 0.75rem;
     font-family: monospace;
+    transition: 0.2s;
+}
+
+.nav-link:hover {
+    background: #222;
 }
 
 .speed-btn {
@@ -54,6 +59,7 @@ body {
     font-size: 0.7rem;
     font-family: monospace;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .speed-btn:hover {
