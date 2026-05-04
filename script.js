@@ -64,14 +64,15 @@ function renderProjects() {
                 <div style="padding:20px;">
                     <span style="color:#00f2ff; font-size:0.65rem;">[ ${proj.type} ]</span>
                     <h3 style="margin: 10px 0; color:#fff; font-size:1rem;">${proj.title}</h3>
-                    <p style="font-size:0.8rem; color:#888; margin-bottom:15px; min-height:40px;">${proj.description}</p>
+                    <p style="font-size:0.8rem; color:#888; margin-bottom:15px; height:40px;">${proj.description}</p>
                     
-                    <a href="${proj.link}" target="_blank" class="card-link-btn">[ ${proj.linkText} ]</a>
+                    <a href="${proj.link}" target="_blank" style="display: inline-block; color: #fff; text-decoration: none; border: 1px solid #444; padding: 10px 15px; font-size: 0.75rem; font-family: monospace; margin-bottom: 15px; background: #222;">
+                        [ ${proj.linkText} ]
+                    </a>
 
                     <div class="controls" style="display: flex; gap: 5px; flex-wrap: wrap;">
                         <button onclick="updateSpeed('${proj.id}', 2000)" class="speed-btn">1x</button>
                         <button onclick="updateSpeed('${proj.id}', 1000)" class="speed-btn">2x</button>
-                        <button onclick="updateSpeed('${proj.id}', 300)" class="speed-btn">Turbo</button>
                         <button id="btn-pause-${proj.id}" onclick="togglePause('${proj.id}')" class="speed-btn" style="border-color:#ff4d4d; color:#ff4d4d;">Pauza</button>
                     </div>
                 </div>
@@ -95,8 +96,6 @@ function startSlideshow(id) {
 
 function updateSpeed(id, newSpeed) {
     isPaused[id] = false;
-    const btn = document.getElementById(`btn-pause-${id}`);
-    if(btn) { btn.innerText = "Pauza"; btn.style.borderColor = "#ff4d4d"; btn.style.color = "#ff4d4d"; }
     speeds[id] = newSpeed;
     startSlideshow(id);
 }
@@ -107,13 +106,9 @@ function togglePause(id) {
         clearInterval(intervals[id]);
         isPaused[id] = true;
         btn.innerText = "Nastavi";
-        btn.style.borderColor = "#00ff00";
-        btn.style.color = "#00ff00";
     } else {
         isPaused[id] = false;
         btn.innerText = "Pauza";
-        btn.style.borderColor = "#ff4d4d";
-        btn.style.color = "#ff4d4d";
         startSlideshow(id);
     }
 }
