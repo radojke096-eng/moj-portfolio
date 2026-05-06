@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uroš Radojković | Inženjerski Portfolio</title>
     <link rel="stylesheet" href="styleCss/Style.css">
+    <link rel="stylesheet" href="css/ProjectBlock.css">
 </head>
 <body>
 
@@ -22,9 +23,30 @@
 
     <main id="portfolio-grid" class="container" style="padding: 20px; max-width: 1200px; margin: 0 auto;"></main>
 
+    <!-- ProjectBlock Container -->
+    <section id="projects-section" style="max-width: 1200px; margin: 40px auto; padding: 20px;">
+        <h2 style="color: #fff; text-align: center; margin-bottom: 30px; letter-spacing: 1px;">ANIMIRANI_PROJEKTI</h2>
+        <div id="gif1-container"></div>
+        <div id="gif2-container"></div>
+        <div id="gif3-container"></div>
+    </section>
+
     <footer style="text-align: center; padding: 40px; color: #444; font-size: 0.8rem; font-family: monospace;">
         &copy; 2026 LOGIČKI_MODULI // STRIKTNO_POVERLJIVO
     </footer>
+
+    <!-- Load the ProjectBlock Class -->
+    <script src="js/ProjectBlock.js"></script>
+    
+    <!-- Initialize Project Blocks -->
+    <script>
+        // Create instance for 'Gif1' folder with 16 images
+        const gif1Block = new ProjectBlock('Gif1', 16, 'gif1-container');
+        
+        // Optional: Create additional instances (uncomment to use)
+        // const gif2Block = new ProjectBlock('Gif2', 20, 'gif2-container');
+        // const gif3Block = new ProjectBlock('Gif3', 12, 'gif3-container');
+    </script>
 
     <script src="script.js"></script>
 </body>
