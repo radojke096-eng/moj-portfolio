@@ -73,6 +73,77 @@ body {
 }
 
 /* =============================================
+   Control Styles
+   ============================================= */
+
+.project-controls {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  padding: 8px 14px;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.control-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: scale(1.05);
+}
+
+.control-btn.active {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.play-pause-btn {
+  border-color: #00c4ff;
+  color: #00c4ff;
+  min-width: 100px;
+}
+
+.play-pause-btn:hover {
+  background: #00c4ff;
+}
+
+.play-pause-btn.playing {
+  background: #00c4ff;
+  color: white;
+  border-color: #00c4ff;
+}
+
+.speed-btn {
+  border-color: #764ba2;
+  color: #764ba2;
+  min-width: 85px;
+}
+
+.speed-btn:hover {
+  background: #764ba2;
+}
+
+.speed-btn.active {
+  background: #764ba2;
+  color: white;
+  border-color: #764ba2;
+}
+
+/* =============================================
    Responsive Design
    ============================================= */
 
@@ -100,5 +171,16 @@ body {
 
   .project-block {
     max-width: 100%;
+  }
+
+  .project-controls {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .control-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    min-width: 70px;
   }
 }
