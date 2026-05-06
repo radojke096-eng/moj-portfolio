@@ -119,6 +119,8 @@ body {
 
 .play-pause-btn:hover {
   background: #00c4ff;
+  color: white;
+  border-color: #00c4ff;
 }
 
 .play-pause-btn.playing {
@@ -130,17 +132,20 @@ body {
 .speed-btn {
   border-color: #764ba2;
   color: #764ba2;
-  min-width: 85px;
+  min-width: 100px;
 }
 
 .speed-btn:hover {
   background: #764ba2;
+  color: white;
+  border-color: #764ba2;
 }
 
 .speed-btn.active {
   background: #764ba2;
   color: white;
   border-color: #764ba2;
+  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
 }
 
 /* =============================================
@@ -181,6 +186,6 @@ body {
   .control-btn {
     padding: 6px 10px;
     font-size: 0.75rem;
-    min-width: 70px;
+    min-width: auto;
   }
 }
