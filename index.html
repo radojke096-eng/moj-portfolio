@@ -5,14 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uroš Radojković | Inženjerski Portfolio</title>
     <style>
+        /* =============================================
+           SISTEMSKI STIL (Osnovni stilovi)
+           ============================================= */
         body {
             margin: 0;
             padding: 0;
-            background: #050505;
+            background: #050505; /* Duboka crna */
             color: #e0e0e0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
         }
 
+        .nav-link {
+            text-decoration: none;
+            color: #00f2ff;
+            font-family: monospace;
+            padding: 8px 12px;
+            border: 1px solid #00f2ff;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #00f2ff22;
+            box-shadow: 0 0 15px #00f2ff44;
+        }
+
+        /* =============================================
+           PROJECT BLOCK GRID & STYLES
+           ============================================= */
         #projects-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -28,6 +49,7 @@
             color: #fff;
             text-align: center;
             margin-bottom: 30px;
+            letter-spacing: 2px;
             font-family: monospace;
             border-bottom: 1px solid #1a1a1a;
             padding-bottom: 10px;
@@ -39,19 +61,21 @@
             max-width: 380px;
             background: #0a0a0a;
             border: 1px solid #333;
-            border-radius: 4px;
+            border-radius: 4px; /* Oštrije ivice za inženjerski izgled */
             overflow: hidden;
             transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: default;
         }
 
         .project-block:hover {
+            transform: translateY(-5px);
             border-color: #00f2ff;
         }
 
         .image-container {
             position: relative;
             width: 100%;
-            padding-bottom: 100%;
+            padding-bottom: 100%; /* 1:1 Aspect Ratio */
             background: #000;
         }
 
@@ -70,12 +94,14 @@
             opacity: 1;
         }
 
+        /* Kontrole */
         .project-controls {
             display: flex;
             padding: 12px;
             gap: 8px;
             background: #0e0e0e;
             border-top: 1px solid #1a1a1a;
+            justify-content: space-between;
         }
 
         .control-btn {
@@ -88,17 +114,30 @@
             color: #888;
             cursor: pointer;
             text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            border-color: #00f2ff;
+            color: #fff;
         }
 
         .control-btn.active {
+            background: #00f2ff11;
             border-color: #00f2ff;
             color: #00f2ff;
-            background: #00f2ff11;
+            box-shadow: inset 0 0 5px #00f2ff33;
         }
 
         .play-pause-btn.playing {
-            color: #f39c12;
             border-color: #f39c12;
+            color: #f39c12;
+        }
+
+        @media (max-width: 480px) {
+            #projects-section {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -111,6 +150,13 @@
         </div>
     </header>
 
+    <nav style="text-align: center; padding: 25px; border-bottom: 1px solid #1a1a1a; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+        <a href="https://github.com/radojke096-eng" target="_blank" class="nav-link">[ GITHUB_PROFIL ]</a>
+        <a href="#" target="_blank" class="nav-link" style="color: #f39c12; border-color: #f39c12;">[ INFOSTUD_PROFIL ]</a>
+    </nav>
+
+    <main id="portfolio-grid" class="container" style="padding: 20px; max-width: 1200px; margin: 0 auto;"></main>
+
     <section id="projects-section">
         <h2 class="section-title">[ ANIMIRANI_PROJEKTI_MODUL ]</h2>
         
@@ -119,22 +165,25 @@
         <div id="gif3-container"></div>
     </section>
 
+    <footer style="text-align: center; padding: 60px 40px; color: #333; font-size: 0.75rem; font-family: monospace; letter-spacing: 1px;">
+        &copy; 2026 LOGIČKI_MODULI // STRIKTNO_POVERLJIVO // SISTEM_ZAKLJUČAN
+    </footer>
+
     <script>
         class ProjectBlock {
-            // Dodali smo 'extension' kao parametar (podrazumevano 'png')
-            constructor(folderName, totalImages, containerId, extension = 'png') {
+            constructor(folderName, totalImages, containerId) {
                 this.folderName = folderName;
                 this.totalImages = totalImages;
                 this.containerId = containerId;
-                this.extension = extension; 
-                
                 this.currentImageIndex = 0;
                 this.isPlaying = false;
                 this.animationTimeout = null;
                 this.speed = 'normal'; 
                 
+                // Osnovne brzine (ms)
                 this.baseDisplayMs = 2000; 
                 this.basePauseMs = 2000;
+                
                 this.displayMs = this.baseDisplayMs;
                 this.pauseMs = this.basePauseMs;
 
@@ -154,8 +203,7 @@
 
                 let imagesHtml = '';
                 for (let i = 1; i <= this.totalImages; i++) {
-                    // Ovde koristimo dinamičku ekstenziju
-                    imagesHtml += `<img src="Assets/${this.folderName}/img${i}.${this.extension}" class="project-image ${i === 1 ? 'active' : ''}" data-index="${i-1}">`;
+                    imagesHtml += `<img src="Assets/${this.folderName}/img${i}.png" class="project-image ${i === 1 ? 'active' : ''}" data-index="${i-1}">`;
                 }
 
                 container.innerHTML = `
@@ -181,6 +229,7 @@
             attachEventListeners() {
                 this.block.addEventListener('mouseenter', () => this.play());
                 this.block.addEventListener('mouseleave', () => this.stop());
+
                 this.playBtn.addEventListener('click', () => this.isPlaying ? this.pause() : this.play());
                 this.normalBtn.addEventListener('click', () => this.setSpeed('normal'));
                 this.doubleBtn.addEventListener('click', () => this.setSpeed('2x'));
@@ -195,7 +244,9 @@
 
             cycle() {
                 if (!this.isPlaying) return;
+                
                 this.showImage(this.currentImageIndex);
+
                 this.animationTimeout = setTimeout(() => {
                     this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
                     this.cycle();
@@ -223,6 +274,7 @@
                 const m = type === '2x' ? 0.5 : 1;
                 this.displayMs = this.baseDisplayMs * m;
                 this.pauseMs = this.basePauseMs * m;
+                
                 this.updateUI();
                 if (this.isPlaying) {
                     clearTimeout(this.animationTimeout);
@@ -238,17 +290,13 @@
             }
         }
 
-        // INICIJALIZACIJA SA RAZLIČITIM FORMATIMA
+        // INICIJALIZACIJA
         document.addEventListener('DOMContentLoaded', () => {
-            // Ako je Gif1 folder sa JPG slikama:
-            new ProjectBlock('Gif1', 16, 'gif1-container', 'jpg');
-            
-            // Ako je Gif2 folder sa PNG slikama:
-            new ProjectBlock('Gif2', 20, 'gif2-container', 'png');
-            
-            // Ako je Gif3 folder sa JPEG slikama:
-            new ProjectBlock('Gif3', 12, 'gif3-container', 'jpeg');
+            new ProjectBlock('Gif1', 16, 'gif1-container');
+            new ProjectBlock('Gif2', 20, 'gif2-container');
+            new ProjectBlock('Gif3', 12, 'gif3-container');
         });
     </script>
+
 </body>
 </html>
