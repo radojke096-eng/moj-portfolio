@@ -1,6 +1,6 @@
 /**
  * ProjectBlock Class
- * Handles an image sequence from a folder with hover effects
+ * Handles an image sequence from a folder with play/pause and speed controls
  */
 class ProjectBlock {
   constructor(folderName, totalImages, containerId) {
@@ -8,8 +8,9 @@ class ProjectBlock {
     this.totalImages = totalImages;
     this.containerId = containerId;
     this.currentImageIndex = 0;
-    this.isHovering = false;
+    this.isPlaying = false;
     this.animationInterval = null;
+    this.speed = 100; // Default speed in milliseconds
 
     this.init();
   }
@@ -59,6 +60,37 @@ class ProjectBlock {
     }
 
     projectBlock.appendChild(imageContainer);
+
+    // Create controls container
+    const controlsContainer = document.createElement('div');
+    controlsContainer.className = 'project-controls';
+
+    // Play/Pause button
+    const playPauseBtn = document.createElement('button');
+    playPauseBtn.className = 'control-btn play-pause-btn';
+    playPauseBtn.id = `play-pause-${this.folderName}`;
+    playPauseBtn.innerHTML = '▶ Play';
+    playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+
+    // Normal Speed button
+    const normalSpeedBtn = document.createElement('button');
+    normalSpeedBtn.className = 'control-btn speed-btn normal-speed-btn';
+    normalSpeedBtn.id = `normal-speed-${this.folderName}`;
+    normalSpeedBtn.innerHTML = '1x Speed';
+    normalSpeedBtn.addEventListener('click', () => this.setSpeed(100));
+
+    // 2x Speed button
+    const doubleSpeedBtn = document.createElement('button');
+    doubleSpeedBtn.className = 'control-btn speed-btn double-speed-btn';
+    doubleSpeedBtn.id = `double-speed-${this.folderName}`;
+    doubleSpeedBtn.innerHTML = '2x Speed';
+    doubleSpeedBtn.addEventListener('click', () => this.setSpeed(50));
+
+    controlsContainer.appendChild(playPauseBtn);
+    controlsContainer.appendChild(normalSpeedBtn);
+    controlsContainer.appendChild(doubleSpeedBtn);
+
+    projectBlock.appendChild(controlsContainer);
     container.appendChild(projectBlock);
   }
 
@@ -73,38 +105,109 @@ class ProjectBlock {
       return;
     }
 
-    projectBlock.addEventListener('mouseenter', () => this.startAnimation());
+    projectBlock.addEventListener('mouseenter', () => this.autoPlay());
     projectBlock.addEventListener('mouseleave', () => this.stopAnimation());
+  }
+
+  /**
+   * Auto play on hover
+   */
+  autoPlay() {
+    if (this.isPlaying) return;
+    this.play();
   }
 
   /**
    * Start the image sequence animation
    */
-  startAnimation() {
-    if (this.isHovering) return;
+  play() {
+    if (this.isPlaying) return;
 
-    this.isHovering = true;
+    this.isPlaying = true;
     this.currentImageIndex = 0;
+    this.updatePlayPauseButton();
 
     this.animationInterval = setInterval(() => {
       this.showImage(this.currentImageIndex);
       this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
-    }, 100); // Adjust speed (100ms per frame)
+    }, this.speed);
   }
 
   /**
-   * Stop the animation and reset to the first image
+   * Pause the animation
    */
-  stopAnimation() {
-    this.isHovering = false;
+  pause() {
+    this.isPlaying = false;
 
     if (this.animationInterval) {
       clearInterval(this.animationInterval);
       this.animationInterval = null;
     }
 
-    // Reset to the first image
+    this.updatePlayPauseButton();
+  }
+
+  /**
+   * Toggle between play and pause
+   */
+  togglePlayPause() {
+    if (this.isPlaying) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+
+  /**
+   * Stop the animation and reset to the first image
+   */
+  stopAnimation() {
+    this.pause();
     this.showImage(0);
+  }
+
+  /**
+   * Set animation speed
+   * @param {number} speedMs - Speed in milliseconds
+   */
+  setSpeed(speedMs) {
+    this.speed = speedMs;
+    
+    // If playing, restart with new speed
+    if (this.isPlaying) {
+      clearInterval(this.animationInterval);
+      this.animationInterval = setInterval(() => {
+        this.showImage(this.currentImageIndex);
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
+      }, this.speed);
+    }
+
+    // Update button states
+    this.updateSpeedButtons();
+  }
+
+  /**
+   * Update speed button states
+   */
+  updateSpeedButtons() {
+    const normalBtn = document.getElementById(`normal-speed-${this.folderName}`);
+    const doubleBtn = document.getElementById(`double-speed-${this.folderName}`);
+
+    if (normalBtn && doubleBtn) {
+      normalBtn.classList.toggle('active', this.speed === 100);
+      doubleBtn.classList.toggle('active', this.speed === 50);
+    }
+  }
+
+  /**
+   * Update play/pause button text
+   */
+  updatePlayPauseButton() {
+    const btn = document.getElementById(`play-pause-${this.folderName}`);
+    if (btn) {
+      btn.innerHTML = this.isPlaying ? '⏸ Pause' : '▶ Play';
+      btn.classList.toggle('playing', this.isPlaying);
+    }
   }
 
   /**
