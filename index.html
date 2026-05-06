@@ -4,8 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uroš Radojković | Inženjerski Portfolio</title>
-    <link rel="stylesheet" href="styleCss/Style.css">
-    <link rel="stylesheet" href="css/ProjectBlock.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #050505;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #projects-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: monospace;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 10px;
+            width: 100%;
+        }
+
+        .project-block {
+            width: 100%;
+            max-width: 380px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .project-block:hover {
+            border-color: #00f2ff;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            background: #000;
+        }
+
+        .project-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .project-image.active {
+            opacity: 1;
+        }
+
+        .project-controls {
+            display: flex;
+            padding: 12px;
+            gap: 8px;
+            background: #0e0e0e;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 8px 5px;
+            font-size: 0.7rem;
+            font-family: monospace;
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .control-btn.active {
+            border-color: #00f2ff;
+            color: #00f2ff;
+            background: #00f2ff11;
+        }
+
+        .play-pause-btn.playing {
+            color: #f39c12;
+            border-color: #f39c12;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,39 +111,144 @@
         </div>
     </header>
 
-    <section style="text-align: center; padding: 25px; border-bottom: 1px solid #1a1a1a; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
-        <a href="https://github.com/radojke096-eng" target="_blank" class="nav-link">[ GITHUB_PROFIL ]</a>
-        <a href="https://profil.infostud.com/moj-nalog/profil?client=poslovi&_gl=1*b1p17*_gcl_au*NTkzMTI4MzguMTc3NjI1ODE1MA..*_ga*ODAxMjQ1NTQuMTc3NjI1ODE1MQ..*_ga_M34X54KRYT*czE3NzgwODI2MDYkbzEwJGcxJHQxNzc4MDgzNTY2JGoyOCRsMCRoMA.." target="_blank" class="nav-link" style="color: #f39c12; border-color: #f39c12;">[ INFOSTUD_PROFIL ]</a>
-    </section>
-
-    <main id="portfolio-grid" class="container" style="padding: 20px; max-width: 1200px; margin: 0 auto;"></main>
-
-    <!-- ProjectBlock Container -->
-    <section id="projects-section" style="max-width: 1200px; margin: 40px auto; padding: 20px;">
-        <h2 style="color: #fff; text-align: center; margin-bottom: 30px; letter-spacing: 1px;">ANIMIRANI_PROJEKTI</h2>
+    <section id="projects-section">
+        <h2 class="section-title">[ ANIMIRANI_PROJEKTI_MODUL ]</h2>
+        
         <div id="gif1-container"></div>
         <div id="gif2-container"></div>
         <div id="gif3-container"></div>
     </section>
 
-    <footer style="text-align: center; padding: 40px; color: #444; font-size: 0.8rem; font-family: monospace;">
-        &copy; 2026 LOGIČKI_MODULI // STRIKTNO_POVERLJIVO
-    </footer>
-
-    <!-- Load the ProjectBlock Class -->
-    <script src="js/ProjectBlock.js"></script>
-    
-    <!-- Initialize Project Blocks -->
     <script>
-        // Create instance for 'Gif1' folder with 16 images
-        // Default speed: 2 seconds per image + 2 seconds pause = 4 seconds total
-        const gif1Block = new ProjectBlock('Gif1', 16, 'gif1-container');
-        
-        // Create instances for additional folders
-        const gif2Block = new ProjectBlock('Gif2', 20, 'gif2-container');
-        const gif3Block = new ProjectBlock('Gif3', 12, 'gif3-container');
-    </script>
+        class ProjectBlock {
+            // Dodali smo 'extension' kao parametar (podrazumevano 'png')
+            constructor(folderName, totalImages, containerId, extension = 'png') {
+                this.folderName = folderName;
+                this.totalImages = totalImages;
+                this.containerId = containerId;
+                this.extension = extension; 
+                
+                this.currentImageIndex = 0;
+                this.isPlaying = false;
+                this.animationTimeout = null;
+                this.speed = 'normal'; 
+                
+                this.baseDisplayMs = 2000; 
+                this.basePauseMs = 2000;
+                this.displayMs = this.baseDisplayMs;
+                this.pauseMs = this.basePauseMs;
 
-    <script src="script.js"></script>
+                this.images = []; 
+                this.init();
+            }
+
+            init() {
+                this.createDOMStructure();
+                this.cacheElements();
+                this.attachEventListeners();
+            }
+
+            createDOMStructure() {
+                const container = document.getElementById(this.containerId);
+                if (!container) return;
+
+                let imagesHtml = '';
+                for (let i = 1; i <= this.totalImages; i++) {
+                    // Ovde koristimo dinamičku ekstenziju
+                    imagesHtml += `<img src="Assets/${this.folderName}/img${i}.${this.extension}" class="project-image ${i === 1 ? 'active' : ''}" data-index="${i-1}">`;
+                }
+
+                container.innerHTML = `
+                    <div class="project-block" id="block-${this.folderName}">
+                        <div class="image-container">${imagesHtml}</div>
+                        <div class="project-controls">
+                            <button class="control-btn play-btn">▶ Play</button>
+                            <button class="control-btn speed-btn normal-btn active">Normal</button>
+                            <button class="control-btn speed-btn double-btn">2x Speed</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            cacheElements() {
+                this.block = document.getElementById(`block-${this.folderName}`);
+                this.images = Array.from(this.block.querySelectorAll('.project-image'));
+                this.playBtn = this.block.querySelector('.play-btn');
+                this.normalBtn = this.block.querySelector('.normal-btn');
+                this.doubleBtn = this.block.querySelector('.double-btn');
+            }
+
+            attachEventListeners() {
+                this.block.addEventListener('mouseenter', () => this.play());
+                this.block.addEventListener('mouseleave', () => this.stop());
+                this.playBtn.addEventListener('click', () => this.isPlaying ? this.pause() : this.play());
+                this.normalBtn.addEventListener('click', () => this.setSpeed('normal'));
+                this.doubleBtn.addEventListener('click', () => this.setSpeed('2x'));
+            }
+
+            play() {
+                if (this.isPlaying) return;
+                this.isPlaying = true;
+                this.updateUI();
+                this.cycle();
+            }
+
+            cycle() {
+                if (!this.isPlaying) return;
+                this.showImage(this.currentImageIndex);
+                this.animationTimeout = setTimeout(() => {
+                    this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
+                    this.cycle();
+                }, this.displayMs + this.pauseMs);
+            }
+
+            pause() {
+                this.isPlaying = false;
+                clearTimeout(this.animationTimeout);
+                this.updateUI();
+            }
+
+            stop() {
+                this.pause();
+                this.currentImageIndex = 0;
+                this.showImage(0);
+            }
+
+            showImage(index) {
+                this.images.forEach((img, i) => img.classList.toggle('active', i === index));
+            }
+
+            setSpeed(type) {
+                this.speed = type;
+                const m = type === '2x' ? 0.5 : 1;
+                this.displayMs = this.baseDisplayMs * m;
+                this.pauseMs = this.basePauseMs * m;
+                this.updateUI();
+                if (this.isPlaying) {
+                    clearTimeout(this.animationTimeout);
+                    this.cycle();
+                }
+            }
+
+            updateUI() {
+                this.playBtn.innerHTML = this.isPlaying ? '⏸ Pause' : '▶ Play';
+                this.playBtn.classList.toggle('playing', this.isPlaying);
+                this.normalBtn.classList.toggle('active', this.speed === 'normal');
+                this.doubleBtn.classList.toggle('active', this.speed === '2x');
+            }
+        }
+
+        // INICIJALIZACIJA SA RAZLIČITIM FORMATIMA
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ako je Gif1 folder sa JPG slikama:
+            new ProjectBlock('Gif1', 16, 'gif1-container', 'jpg');
+            
+            // Ako je Gif2 folder sa PNG slikama:
+            new ProjectBlock('Gif2', 20, 'gif2-container', 'png');
+            
+            // Ako je Gif3 folder sa JPEG slikama:
+            new ProjectBlock('Gif3', 12, 'gif3-container', 'jpeg');
+        });
+    </script>
 </body>
 </html>
