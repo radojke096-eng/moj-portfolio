@@ -1,0 +1,104 @@
+/* =============================================
+   ProjectBlock Styles
+   ============================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.projects-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projects-title {
+  color: white;
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* =============================================
+   Project Block Styles
+   ============================================= */
+
+.project-block {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: white;
+}
+
+.project-block:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* =============================================
+   Image Container Styles
+   ============================================= */
+
+.image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* Creates a 1:1 aspect ratio */
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.project-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.1s ease;
+  display: block;
+}
+
+/* =============================================
+   Responsive Design
+   ============================================= */
+
+@media (min-width: 768px) {
+  .projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+  }
+
+  .project-block {
+    margin: 0;
+  }
+
+  .projects-title {
+    grid-column: 1 / -1;
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-title {
+    font-size: 1.8rem;
+  }
+
+  .project-block {
+    max-width: 100%;
+  }
+}
