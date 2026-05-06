@@ -1,256 +1,170 @@
 /**
- * ProjectBlock Class
- * Handles an image sequence from a folder with play/pause and speed controls
- * Default: 2 seconds image + 2 seconds pause = 4 seconds total per image
- * 2x Speed: 1 second image + 1 second pause = 2 seconds total per image
+ * ProjectBlock Class - Verzija 3.1
+ * Podržava različite formate slika i sinhronizovanu brzinu.
  */
 class ProjectBlock {
-  constructor(folderName, totalImages, containerId) {
-    this.folderName = folderName;
-    this.totalImages = totalImages;
-    this.containerId = containerId;
-    this.currentImageIndex = 0;
-    this.isPlaying = false;
-    this.animationInterval = null;
-    this.speed = 'normal'; // 'normal' or '2x'
-    this.normalSpeedMs = 2000; // 2 seconds for image display
-    this.pauseMs = 2000; // 2 seconds pause
-    this.speedMs = this.normalSpeedMs;
+    /**
+     * @param {string} folderName - Naziv foldera u Assets/
+     * @param {number} totalImages - Broj slika u nizu
+     * @param {string} containerId - ID HTML elementa gde se blok renderuje
+     * @param {string} extension - Format fajla ('png', 'jpg', 'jpeg', 'webp')
+     */
+    constructor(folderName, totalImages, containerId, extension = 'png') {
+        this.folderName = folderName;
+        this.totalImages = totalImages;
+        this.containerId = containerId;
+        this.extension = extension; 
+        
+        // Interno stanje
+        this.currentImageIndex = 0;
+        this.isPlaying = false;
+        this.animationTimeout = null;
+        this.speed = 'normal'; 
+        
+        // Tajming (ms)
+        this.baseDisplayMs = 2000; 
+        this.basePauseMs = 2000;
+        this.displayMs = this.baseDisplayMs;
+        this.pauseMs = this.basePauseMs;
 
-    this.init();
-  }
-
-  /**
-   * Initialize the ProjectBlock
-   */
-  init() {
-    this.createDOMStructure();
-    this.attachEventListeners();
-  }
-
-  /**
-   * Create the HTML structure for the project block
-   */
-  createDOMStructure() {
-    const container = document.getElementById(this.containerId);
-
-    if (!container) {
-      console.error(`Container with id "${this.containerId}" not found.`);
-      return;
+        this.images = []; 
+        this.init();
     }
 
-    // Create the project block wrapper
-    const projectBlock = document.createElement('div');
-    projectBlock.className = 'project-block';
-    projectBlock.id = `project-block-${this.folderName}`;
-
-    // Create the image container
-    const imageContainer = document.createElement('div');
-    imageContainer.className = 'image-container';
-
-    // Create image elements for each image in the sequence
-    for (let i = 1; i <= this.totalImages; i++) {
-      const img = document.createElement('img');
-      img.className = 'project-image';
-      img.src = `Assets/${this.folderName}/img${i}.png`;
-      img.alt = `${this.folderName} - Frame ${i}`;
-      img.dataset.index = i - 1;
-
-      // Hide all images except the first one
-      if (i !== 1) {
-        img.style.display = 'none';
-      }
-
-      imageContainer.appendChild(img);
+    init() {
+        this.createDOMStructure();
+        this.cacheElements();
+        this.attachEventListeners();
     }
 
-    projectBlock.appendChild(imageContainer);
+    /**
+     * Generiše HTML strukturu i ubacuje putanje sa ispravnom ekstenzijom
+     */
+    createDOMStructure() {
+        const container = document.getElementById(this.containerId);
+        if (!container) {
+            console.error(`Sistemska greška: Kontejnere ${this.containerId} nije pronađen.`);
+            return;
+        }
 
-    // Create controls container
-    const controlsContainer = document.createElement('div');
-    controlsContainer.className = 'project-controls';
+        let imagesHtml = '';
+        for (let i = 1; i <= this.totalImages; i++) {
+            // Dinamičko sklapanje putanje: Assets/Folder/imgX.ext
+            imagesHtml += `
+                <img src="Assets/${this.folderName}/img${i}.${this.extension}" 
+                     class="project-image ${i === 1 ? 'active' : ''}" 
+                     data-index="${i-1}"
+                     alt="Projekat ${this.folderName} - Frame ${i}">`;
+        }
 
-    // Play/Pause button
-    const playPauseBtn = document.createElement('button');
-    playPauseBtn.className = 'control-btn play-pause-btn';
-    playPauseBtn.id = `play-pause-${this.folderName}`;
-    playPauseBtn.innerHTML = '▶ Play';
-    playPauseBtn.addEventListener('click', () => this.togglePlayPause());
-
-    // Normal Speed button
-    const normalSpeedBtn = document.createElement('button');
-    normalSpeedBtn.className = 'control-btn speed-btn normal-speed-btn active';
-    normalSpeedBtn.id = `normal-speed-${this.folderName}`;
-    normalSpeedBtn.innerHTML = 'Normal (2s)';
-    normalSpeedBtn.addEventListener('click', () => this.setSpeed('normal'));
-
-    // 2x Speed button
-    const doubleSpeedBtn = document.createElement('button');
-    doubleSpeedBtn.className = 'control-btn speed-btn double-speed-btn';
-    doubleSpeedBtn.id = `double-speed-${this.folderName}`;
-    doubleSpeedBtn.innerHTML = '2x Speed (1s)';
-    doubleSpeedBtn.addEventListener('click', () => this.setSpeed('2x'));
-
-    controlsContainer.appendChild(playPauseBtn);
-    controlsContainer.appendChild(normalSpeedBtn);
-    controlsContainer.appendChild(doubleSpeedBtn);
-
-    projectBlock.appendChild(controlsContainer);
-    container.appendChild(projectBlock);
-  }
-
-  /**
-   * Attach event listeners for hover effects
-   */
-  attachEventListeners() {
-    const projectBlock = document.getElementById(`project-block-${this.folderName}`);
-
-    if (!projectBlock) {
-      console.error(`Project block for "${this.folderName}" not found.`);
-      return;
+        container.innerHTML = `
+            <div class="project-block" id="block-${this.folderName}">
+                <div class="image-container">${imagesHtml}</div>
+                <div class="project-controls">
+                    <button class="control-btn play-btn" title="Pokreni/Pauziraj">▶ Play</button>
+                    <button class="control-btn speed-btn normal-btn active">Normal</button>
+                    <button class="control-btn speed-btn double-btn">2x Speed</button>
+                </div>
+            </div>
+        `;
     }
 
-    projectBlock.addEventListener('mouseenter', () => this.autoPlay());
-    projectBlock.addEventListener('mouseleave', () => this.stopAnimation());
-  }
-
-  /**
-   * Auto play on hover
-   */
-  autoPlay() {
-    if (this.isPlaying) return;
-    this.play();
-  }
-
-  /**
-   * Start the image sequence animation with display and pause cycle
-   */
-  play() {
-    if (this.isPlaying) return;
-
-    this.isPlaying = true;
-    this.currentImageIndex = 0;
-    this.updatePlayPauseButton();
-
-    this.cycleImages();
-  }
-
-  /**
-   * Cycle through images with display and pause timing
-   */
-  cycleImages() {
-    if (!this.isPlaying) return;
-
-    // Show current image
-    this.showImage(this.currentImageIndex);
-
-    // Clear any existing interval
-    if (this.animationInterval) {
-      clearInterval(this.animationInterval);
+    cacheElements() {
+        this.block = document.getElementById(`block-${this.folderName}`);
+        this.images = Array.from(this.block.querySelectorAll('.project-image'));
+        this.playBtn = this.block.querySelector('.play-btn');
+        this.normalBtn = this.block.querySelector('.normal-btn');
+        this.doubleBtn = this.block.querySelector('.double-btn');
     }
 
-    // Set up timing for display and pause
-    this.animationInterval = setTimeout(() => {
-      if (this.isPlaying) {
-        // Move to next image after display + pause time
-        this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
-        this.cycleImages();
-      }
-    }, this.speedMs + this.pauseMs);
-  }
+    attachEventListeners() {
+        // Hover funkcionalnost
+        this.block.addEventListener('mouseenter', () => this.play());
+        this.block.addEventListener('mouseleave', () => this.stop());
 
-  /**
-   * Pause the animation
-   */
-  pause() {
-    this.isPlaying = false;
+        // Klik funkcionalnost
+        this.playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.isPlaying ? this.pause() : this.play();
+        });
 
-    if (this.animationInterval) {
-      clearTimeout(this.animationInterval);
-      this.animationInterval = null;
+        this.normalBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.setSpeed('normal');
+        });
+
+        this.doubleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.setSpeed('2x');
+        });
     }
 
-    this.updatePlayPauseButton();
-  }
-
-  /**
-   * Toggle between play and pause
-   */
-  togglePlayPause() {
-    if (this.isPlaying) {
-      this.pause();
-    } else {
-      this.play();
-    }
-  }
-
-  /**
-   * Stop the animation and reset to the first image
-   */
-  stopAnimation() {
-    this.pause();
-    this.showImage(0);
-  }
-
-  /**
-   * Set animation speed
-   * @param {string} speedType - 'normal' or '2x'
-   */
-  setSpeed(speedType) {
-    this.speed = speedType;
-    
-    if (speedType === 'normal') {
-      this.speedMs = this.normalSpeedMs; // 2 seconds
-    } else if (speedType === '2x') {
-      this.speedMs = this.normalSpeedMs / 2; // 1 second
+    play() {
+        if (this.isPlaying) return;
+        this.isPlaying = true;
+        this.updateUI();
+        this.cycle();
     }
 
-    // If playing, restart with new speed
-    if (this.isPlaying) {
-      if (this.animationInterval) {
-        clearTimeout(this.animationInterval);
-      }
-      this.cycleImages();
+    /**
+     * Glavna petlja animacije
+     */
+    cycle() {
+        if (!this.isPlaying) return;
+        
+        this.showImage(this.currentImageIndex);
+
+        // Ukupno vreme ciklusa = prikaz + pauza
+        this.animationTimeout = setTimeout(() => {
+            this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
+            this.cycle();
+        }, this.displayMs + this.pauseMs);
     }
 
-    // Update button states
-    this.updateSpeedButtons();
-  }
-
-  /**
-   * Update speed button states
-   */
-  updateSpeedButtons() {
-    const normalBtn = document.getElementById(`normal-speed-${this.folderName}`);
-    const doubleBtn = document.getElementById(`double-speed-${this.folderName}`);
-
-    if (normalBtn && doubleBtn) {
-      normalBtn.classList.toggle('active', this.speed === 'normal');
-      doubleBtn.classList.toggle('active', this.speed === '2x');
+    pause() {
+        this.isPlaying = false;
+        if (this.animationTimeout) {
+            clearTimeout(this.animationTimeout);
+            this.animationTimeout = null;
+        }
+        this.updateUI();
     }
-  }
 
-  /**
-   * Update play/pause button text
-   */
-  updatePlayPauseButton() {
-    const btn = document.getElementById(`play-pause-${this.folderName}`);
-    if (btn) {
-      btn.innerHTML = this.isPlaying ? '⏸ Pause' : '▶ Play';
-      btn.classList.toggle('playing', this.isPlaying);
+    stop() {
+        this.pause();
+        this.currentImageIndex = 0;
+        this.showImage(0);
     }
-  }
 
-  /**
-   * Display a specific image in the sequence
-   * @param {number} index - The index of the image to display
-   */
-  showImage(index) {
-    const projectBlock = document.getElementById(`project-block-${this.folderName}`);
-    const images = projectBlock.querySelectorAll('.project-image');
+    showImage(index) {
+        this.images.forEach((img, i) => {
+            img.classList.toggle('active', i === index);
+        });
+    }
 
-    images.forEach((img, i) => {
-      img.style.display = i === index ? 'block' : 'none';
-    });
-  }
+    /**
+     * Skalira i prikaz i pauzu za pravi osećaj brzine
+     */
+    setSpeed(type) {
+        this.speed = type;
+        const multiplier = type === '2x' ? 0.5 : 1;
+        
+        this.displayMs = this.baseDisplayMs * multiplier;
+        this.pauseMs = this.basePauseMs * multiplier;
+
+        this.updateUI();
+
+        // Ako je animacija u toku, restartuj tajmer sa novom brzinom
+        if (this.isPlaying) {
+            clearTimeout(this.animationTimeout);
+            this.cycle();
+        }
+    }
+
+    updateUI() {
+        this.playBtn.innerHTML = this.isPlaying ? '⏸ Pause' : '▶ Play';
+        this.playBtn.classList.toggle('playing', this.isPlaying);
+        this.normalBtn.classList.toggle('active', this.speed === 'normal');
+        this.doubleBtn.classList.toggle('active', this.speed === '2x');
+    }
 }
