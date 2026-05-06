@@ -1,6 +1,8 @@
 /**
  * ProjectBlock Class
  * Handles an image sequence from a folder with play/pause and speed controls
+ * Default: 2 seconds image + 2 seconds pause = 4 seconds total per image
+ * 2x Speed: 1 second image + 1 second pause = 2 seconds total per image
  */
 class ProjectBlock {
   constructor(folderName, totalImages, containerId) {
@@ -10,7 +12,10 @@ class ProjectBlock {
     this.currentImageIndex = 0;
     this.isPlaying = false;
     this.animationInterval = null;
-    this.speed = 100; // Default speed in milliseconds
+    this.speed = 'normal'; // 'normal' or '2x'
+    this.normalSpeedMs = 2000; // 2 seconds for image display
+    this.pauseMs = 2000; // 2 seconds pause
+    this.speedMs = this.normalSpeedMs;
 
     this.init();
   }
@@ -74,17 +79,17 @@ class ProjectBlock {
 
     // Normal Speed button
     const normalSpeedBtn = document.createElement('button');
-    normalSpeedBtn.className = 'control-btn speed-btn normal-speed-btn';
+    normalSpeedBtn.className = 'control-btn speed-btn normal-speed-btn active';
     normalSpeedBtn.id = `normal-speed-${this.folderName}`;
-    normalSpeedBtn.innerHTML = '1x Speed';
-    normalSpeedBtn.addEventListener('click', () => this.setSpeed(100));
+    normalSpeedBtn.innerHTML = 'Normal (2s)';
+    normalSpeedBtn.addEventListener('click', () => this.setSpeed('normal'));
 
     // 2x Speed button
     const doubleSpeedBtn = document.createElement('button');
     doubleSpeedBtn.className = 'control-btn speed-btn double-speed-btn';
     doubleSpeedBtn.id = `double-speed-${this.folderName}`;
-    doubleSpeedBtn.innerHTML = '2x Speed';
-    doubleSpeedBtn.addEventListener('click', () => this.setSpeed(50));
+    doubleSpeedBtn.innerHTML = '2x Speed (1s)';
+    doubleSpeedBtn.addEventListener('click', () => this.setSpeed('2x'));
 
     controlsContainer.appendChild(playPauseBtn);
     controlsContainer.appendChild(normalSpeedBtn);
@@ -118,7 +123,7 @@ class ProjectBlock {
   }
 
   /**
-   * Start the image sequence animation
+   * Start the image sequence animation with display and pause cycle
    */
   play() {
     if (this.isPlaying) return;
@@ -127,10 +132,31 @@ class ProjectBlock {
     this.currentImageIndex = 0;
     this.updatePlayPauseButton();
 
-    this.animationInterval = setInterval(() => {
-      this.showImage(this.currentImageIndex);
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
-    }, this.speed);
+    this.cycleImages();
+  }
+
+  /**
+   * Cycle through images with display and pause timing
+   */
+  cycleImages() {
+    if (!this.isPlaying) return;
+
+    // Show current image
+    this.showImage(this.currentImageIndex);
+
+    // Clear any existing interval
+    if (this.animationInterval) {
+      clearInterval(this.animationInterval);
+    }
+
+    // Set up timing for display and pause
+    this.animationInterval = setTimeout(() => {
+      if (this.isPlaying) {
+        // Move to next image after display + pause time
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
+        this.cycleImages();
+      }
+    }, this.speedMs + this.pauseMs);
   }
 
   /**
@@ -140,7 +166,7 @@ class ProjectBlock {
     this.isPlaying = false;
 
     if (this.animationInterval) {
-      clearInterval(this.animationInterval);
+      clearTimeout(this.animationInterval);
       this.animationInterval = null;
     }
 
@@ -168,18 +194,23 @@ class ProjectBlock {
 
   /**
    * Set animation speed
-   * @param {number} speedMs - Speed in milliseconds
+   * @param {string} speedType - 'normal' or '2x'
    */
-  setSpeed(speedMs) {
-    this.speed = speedMs;
+  setSpeed(speedType) {
+    this.speed = speedType;
     
+    if (speedType === 'normal') {
+      this.speedMs = this.normalSpeedMs; // 2 seconds
+    } else if (speedType === '2x') {
+      this.speedMs = this.normalSpeedMs / 2; // 1 second
+    }
+
     // If playing, restart with new speed
     if (this.isPlaying) {
-      clearInterval(this.animationInterval);
-      this.animationInterval = setInterval(() => {
-        this.showImage(this.currentImageIndex);
-        this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
-      }, this.speed);
+      if (this.animationInterval) {
+        clearTimeout(this.animationInterval);
+      }
+      this.cycleImages();
     }
 
     // Update button states
@@ -194,8 +225,8 @@ class ProjectBlock {
     const doubleBtn = document.getElementById(`double-speed-${this.folderName}`);
 
     if (normalBtn && doubleBtn) {
-      normalBtn.classList.toggle('active', this.speed === 100);
-      doubleBtn.classList.toggle('active', this.speed === 50);
+      normalBtn.classList.toggle('active', this.speed === 'normal');
+      doubleBtn.classList.toggle('active', this.speed === '2x');
     }
   }
 
