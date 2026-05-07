@@ -1,28 +1,27 @@
 /**
  * ProjectBlock Class - Optimizovana verzija 2026
- * Upravlja sekvencom slika sa preciznim tajmingom i keširanim DOM elementima.
+ * Upravlja sekvencom slika sa dvojezičnim opisima i kontrolama.
  */
 class ProjectBlock {
-  constructor(folderName, totalImages, containerId) {
+  constructor(folderName, totalImages, containerId, descSr, descEn) {
     this.folderName = folderName;
     this.totalImages = totalImages;
     this.containerId = containerId;
-        this.descEn = descEn;
-    this.descSr=descEn;
+    this.descSr = descSr; // Ispravljeno: prima srpski opis
+    this.descEn = descEn; // Ispravljeno: prima engleski opis
+    
     this.currentImageIndex = 0;
     this.isPlaying = false;
     this.animationTimeout = null;
     this.speed = 'normal'; 
     
-    // Osnovna podešavanja (ms)
     this.baseDisplayMs = 2000; 
     this.basePauseMs = 2000;
     
-    // Trenutna podešavanja (menjaju se sa speed)
     this.displayMs = this.baseDisplayMs;
     this.pauseMs = this.basePauseMs;
 
-    this.images = []; // Keš za image elemente
+    this.images = []; 
     this.init();
   }
 
@@ -48,8 +47,12 @@ class ProjectBlock {
         </div>
         <div class="project-controls">
           <button class="control-btn play-pause-btn" id="play-pause-${this.folderName}">▶ Play</button>
-          <button class="control-btn speed-btn active" id="normal-${this.folderName}">Normal (2s)</button>
-          <button class="control-btn speed-btn" id="double-${this.folderName}">2x Speed (1s)</button>
+          <button class="control-btn speed-btn active" id="normal-${this.folderName}">Normal</button>
+          <button class="control-btn speed-btn" id="double-${this.folderName}">2x Speed</button>
+        </div>
+        <div class="project-description-box" style="padding: 15px; border-top: 1px solid #1a1a1a; background: #0e0e0e;">
+            <p style="color: #00f2ff; font-family: monospace; font-size: 0.85rem; margin: 0 0 8px 0;">[SR] ${this.descSr}</p>
+            <p style="color: #888; font-family: monospace; font-size: 0.8rem; font-style: italic; margin: 0;">[EN] ${this.descEn}</p>
         </div>
       </div>
     `;
@@ -95,10 +98,7 @@ class ProjectBlock {
 
   cycle() {
     if (!this.isPlaying) return;
-
     this.showImage(this.currentImageIndex);
-
-    // Prvo čekamo vreme prikaza, pa vreme pauze
     this.animationTimeout = setTimeout(() => {
       this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
       this.cycle();
@@ -126,12 +126,9 @@ class ProjectBlock {
   setSpeed(type) {
     this.speed = type;
     const multiplier = type === '2x' ? 0.5 : 1;
-    
     this.displayMs = this.baseDisplayMs * multiplier;
     this.pauseMs = this.basePauseMs * multiplier;
-
     this.updateUI();
-
     if (this.isPlaying) {
       clearTimeout(this.animationTimeout);
       this.cycle();
@@ -139,11 +136,8 @@ class ProjectBlock {
   }
 
   updateUI() {
-    // Play/Pause button
     this.playPauseBtn.innerHTML = this.isPlaying ? '⏸ Pause' : '▶ Play';
     this.playPauseBtn.classList.toggle('playing', this.isPlaying);
-
-    // Speed buttons
     this.normalBtn.classList.toggle('active', this.speed === 'normal');
     this.doubleBtn.classList.toggle('active', this.speed === '2x');
   }
