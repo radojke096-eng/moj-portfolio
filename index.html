@@ -3,143 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uroš Radojković gitHub repository </title>
-    <style>
-        /* =============================================
-           SISTEMSKI STIL (Osnovni stilovi)
-           ============================================= */
-        body {
-            margin: 0;
-            padding: 0;
-            background: #050505; /* Duboka crna */
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: #00f2ff;
-            font-family: monospace;
-            padding: 8px 12px;
-            border: 1px solid #00f2ff;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            background: #00f2ff22;
-            box-shadow: 0 0 15px #00f2ff44;
-        }
-
-        /* =============================================
-           PROJECT BLOCK GRID & STYLES
-           ============================================= */
-        #projects-section {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            justify-items: center;
-        }
-
-        .section-title {
-            grid-column: 1 / -1;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            font-family: monospace;
-            border-bottom: 1px solid #1a1a1a;
-            padding-bottom: 10px;
-            width: 100%;
-        }
-
-        .project-block {
-            width: 100%;
-            max-width: 380px;
-            background: #0a0a0a;
-            border: 1px solid #333;
-            border-radius: 4px; /* Oštrije ivice za inženjerski izgled */
-            overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            cursor: default;
-        }
-
-        .project-block:hover {
-            transform: translateY(-5px);
-            border-color: #00f2ff;
-        }
-
-        .image-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 100%; /* 1:1 Aspect Ratio */
-            background: #000;
-        }
-
-        .project-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-        }
-
-        .project-image.active {
-            opacity: 1;
-        }
-
-        /* Kontrole */
-        .project-controls {
-            display: flex;
-            padding: 12px;
-            gap: 8px;
-            background: #0e0e0e;
-            border-top: 1px solid #1a1a1a;
-            justify-content: space-between;
-        }
-
-        .control-btn {
-            flex: 1;
-            padding: 8px 5px;
-            font-size: 0.7rem;
-            font-family: monospace;
-            background: transparent;
-            border: 1px solid #444;
-            color: #888;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-        }
-
-        .control-btn:hover {
-            border-color: #00f2ff;
-            color: #fff;
-        }
-
-        .control-btn.active {
-            background: #00f2ff11;
-            border-color: #00f2ff;
-            color: #00f2ff;
-            box-shadow: inset 0 0 5px #00f2ff33;
-        }
-
-        .play-pause-btn.playing {
-            border-color: #f39c12;
-            color: #f39c12;
-        }
-
-        @media (max-width: 480px) {
-            #projects-section {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>Uroš Radojković | Inženjerski Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -150,153 +15,36 @@
         </div>
     </header>
 
-    <nav style="text-align: center; padding: 25px; border-bottom: 1px solid #1a1a1a; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+    <nav style="text-align: center; padding: 25px; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
         <a href="https://github.com/radojke096-eng" target="_blank" class="nav-link">[ GITHUB_PROFIL ]</a>
-        <a href="https://profil.infostud.com/moj-nalog/profil?client=poslovi&_gl=1*b1p17*_gcl_au*NTkzMTI4MzguMTc3NjI1ODE1MA..*_ga*ODAxMjQ1NTQuMTc3NjI1ODE1MQ..*_ga_M34X54KRYT*czE3NzgwODI2MDYkbzEwJGcxJHQxNzc4MDgzNTY2JGoyOCRsMCRoMA.." target="_blank" class="nav-link" style="color: #f39c12; border-color: #f39c12;">[ INFOSTUD_PROFIL ]</a>
+        <a href="https://poslovi.infostud.com" target="_blank" class="nav-link" style="color: #f39c12; border-color: #f39c12;">[ INFOSTUD_PROFIL ]</a>
     </nav>
 
-    <main id="portfolio-grid" class="container" style="padding: 20px; max-width: 1200px; margin: 0 auto;"></main>
+    <section class="summary-section">
+        <div class="summary-block sr">
+            <h3>[ PROFIL_INŽENJERA ]</h3>
+            <p>Strukovni inženjer informatike. Specijalizovan za multimediju i automatizaciju veb procesa.</p>
+        </div>
+        <div class="summary-block en">
+            <h3>[ SUMMARY ]</h3>
+            <p>Vocational IT Engineer. Specialized in multimedia and web automation.</p>
+        </div>
+    </section>
 
     <section id="projects-section">
         <h2 class="section-title">[ ANIMIRANI_PROJEKTI_MODUL ]</h2>
-        
         <div id="gif1-container"></div>
         <div id="gif2-container"></div>
         <div id="gif3-container"></div>
     </section>
 
-    <footer style="text-align: center; padding: 60px 40px; color: #333; font-size: 0.75rem; font-family: monospace; letter-spacing: 1px;">
-    Thanks for visiting the page.
-    </footer>
-
+    <script src="ProjectBlock.js"></script>
     <script>
-        class ProjectBlock {
-            constructor(folderName, totalImages, containerId) {
-                this.folderName = folderName;
-                this.totalImages = totalImages;
-                this.containerId = containerId;
-                this.currentImageIndex = 0;
-                this.isPlaying = false;
-                this.animationTimeout = null;
-                this.speed = 'normal'; 
-                
-                // Osnovne brzine (ms)
-                this.baseDisplayMs = 2000; 
-                this.basePauseMs = 2000;
-                
-                this.displayMs = this.baseDisplayMs;
-                this.pauseMs = this.basePauseMs;
-
-                this.images = []; 
-                this.init();
-            }
-
-            init() {
-                this.createDOMStructure();
-                this.cacheElements();
-                this.attachEventListeners();
-            }
-
-            createDOMStructure() {
-                const container = document.getElementById(this.containerId);
-                if (!container) return;
-
-                let imagesHtml = '';
-                for (let i = 1; i <= this.totalImages; i++) {
-                    imagesHtml += `<img src="Assets/${this.folderName}/img${i}.png" class="project-image ${i === 1 ? 'active' : ''}" data-index="${i-1}">`;
-                }
-
-                container.innerHTML = `
-                    <div class="project-block" id="block-${this.folderName}">
-                        <div class="image-container">${imagesHtml}</div>
-                        <div class="project-controls">
-                            <button class="control-btn play-btn">▶ Play</button>
-                            <button class="control-btn speed-btn normal-btn active">Normal</button>
-                            <button class="control-btn speed-btn double-btn">2x Speed</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            cacheElements() {
-                this.block = document.getElementById(`block-${this.folderName}`);
-                this.images = Array.from(this.block.querySelectorAll('.project-image'));
-                this.playBtn = this.block.querySelector('.play-btn');
-                this.normalBtn = this.block.querySelector('.normal-btn');
-                this.doubleBtn = this.block.querySelector('.double-btn');
-            }
-
-            attachEventListeners() {
-                this.block.addEventListener('mouseenter', () => this.play());
-                this.block.addEventListener('mouseleave', () => this.stop());
-
-                this.playBtn.addEventListener('click', () => this.isPlaying ? this.pause() : this.play());
-                this.normalBtn.addEventListener('click', () => this.setSpeed('normal'));
-                this.doubleBtn.addEventListener('click', () => this.setSpeed('2x'));
-            }
-
-            play() {
-                if (this.isPlaying) return;
-                this.isPlaying = true;
-                this.updateUI();
-                this.cycle();
-            }
-
-            cycle() {
-                if (!this.isPlaying) return;
-                
-                this.showImage(this.currentImageIndex);
-
-                this.animationTimeout = setTimeout(() => {
-                    this.currentImageIndex = (this.currentImageIndex + 1) % this.totalImages;
-                    this.cycle();
-                }, this.displayMs + this.pauseMs);
-            }
-
-            pause() {
-                this.isPlaying = false;
-                clearTimeout(this.animationTimeout);
-                this.updateUI();
-            }
-
-            stop() {
-                this.pause();
-                this.currentImageIndex = 0;
-                this.showImage(0);
-            }
-
-            showImage(index) {
-                this.images.forEach((img, i) => img.classList.toggle('active', i === index));
-            }
-
-            setSpeed(type) {
-                this.speed = type;
-                const m = type === '2x' ? 0.5 : 1;
-                this.displayMs = this.baseDisplayMs * m;
-                this.pauseMs = this.basePauseMs * m;
-                
-                this.updateUI();
-                if (this.isPlaying) {
-                    clearTimeout(this.animationTimeout);
-                    this.cycle();
-                }
-            }
-
-            updateUI() {
-                this.playBtn.innerHTML = this.isPlaying ? '⏸ Pause' : '▶ Play';
-                this.playBtn.classList.toggle('playing', this.isPlaying);
-                this.normalBtn.classList.toggle('active', this.speed === 'normal');
-                this.doubleBtn.classList.toggle('active', this.speed === '2x');
-            }
-        }
-
-        // INICIJALIZACIJA
         document.addEventListener('DOMContentLoaded', () => {
-            new ProjectBlock('Gif1', 16, 'gif1-container');
-            new ProjectBlock('Gif2', 6, 'gif2-container');
-            new ProjectBlock('Gif3', 5, 'gif3-container');
+            new ProjectBlock('Gif1', 16, 'gif1-container', 'Opis projekta 1', 'Description 1');
+            new ProjectBlock('Gif2', 6, 'gif2-container', 'Opis projekta 2', 'Description 2');
+            new ProjectBlock('Gif3', 5, 'gif3-container', 'Opis projekta 3', 'Description 3');
         });
     </script>
-
 </body>
 </html>
