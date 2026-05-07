@@ -1,80 +1,54 @@
-/* Container za grid - centriranje */
+/* style.css */
+body {
+    margin: 0; padding: 0; background: #050505; color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6;
+}
+.nav-link {
+    text-decoration: none; color: #00f2ff; font-family: monospace;
+    padding: 8px 12px; border: 1px solid #00f2ff; transition: all 0.3s;
+}
+.nav-link:hover { background: #00f2ff22; box-shadow: 0 0 15px #00f2ff44; }
+
+.summary-section {
+    max-width: 1200px; margin: 30px auto; padding: 20px;
+    display: flex; gap: 40px; border-bottom: 1px solid #1a1a1a;
+}
+.summary-block { flex: 1; border-left: 3px solid #333; padding-left: 20px; }
+.summary-block.sr { border-color: #00f2ff; }
+.summary-block.en { border-color: #f39c12; }
+.summary-block h3 { font-family: monospace; color: #fff; margin-top: 0; }
+
 #projects-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-    justify-items: center;
+    max-width: 1200px; margin: 40px auto; padding: 20px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px; justify-items: center;
 }
-
+.section-title {
+    grid-column: 1 / -1; color: #fff; text-align: center; margin-bottom: 30px;
+    letter-spacing: 2px; font-family: monospace; border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 10px; width: 100%;
+}
 .project-block {
-    width: 100%;
-    max-width: 380px;
-    background: #0a0a0a; /* Tamna pozadina za inženjerski stil */
-    border: 1px solid #333;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    width: 100%; max-width: 380px; background: #0a0a0a; border: 1px solid #333;
+    border-radius: 4px; overflow: hidden; transition: 0.3s;
 }
-
-.project-block:hover {
-    transform: translateY(-5px);
-    border-color: #00f2ff;
-}
-
-.image-container {
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%; /* 1:1 Aspect Ratio */
-    background: #000;
-}
-
+.project-block:hover { transform: translateY(-5px); border-color: #00f2ff; }
+.image-container { position: relative; width: 100%; padding-bottom: 100%; background: #000; }
 .project-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out; /* Glatki prelaz */
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity 0.4s ease-in-out;
 }
-
-.project-image.active {
-    opacity: 1;
-}
-
+.project-image.active { opacity: 1; }
 .project-controls {
-    display: flex;
-    padding: 10px;
-    gap: 8px;
-    background: #111;
-    justify-content: space-between;
+    display: flex; padding: 12px; gap: 8px; background: #0e0e0e;
+    border-top: 1px solid #1a1a1a; justify-content: space-between;
 }
-
 .control-btn {
-    flex: 1;
-    padding: 6px 10px;
-    font-size: 0.75rem;
-    font-family: monospace;
-    background: transparent;
-    border: 1px solid #444;
-    color: #888;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    flex: 1; padding: 8px 5px; font-size: 0.7rem; font-family: monospace;
+    background: transparent; border: 1px solid #444; color: #888; cursor: pointer;
 }
+.control-btn:hover, .control-btn.active { border-color: #00f2ff; color: #00f2ff; }
 
-.control-btn:hover {
-    border-color: #00f2ff;
-    color: #fff;
-}
-
-.control-btn.active {
-    background: #00f2ff22;
-    border-color: #00f2ff;
-    color: #00f2ff;
-}
-
-.play-pause-btn.playing {
-    border-color: #f39c12;
-    color: #f39c12;
+@media (max-width: 768px) {
+    .summary-section { flex-direction: column; }
 }
