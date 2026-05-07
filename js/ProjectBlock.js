@@ -7,6 +7,8 @@ class ProjectBlock {
     this.folderName = folderName;
     this.totalImages = totalImages;
     this.containerId = containerId;
+        this.descEn = descEn;
+    this.descSr=descEn;
     this.currentImageIndex = 0;
     this.isPlaying = false;
     this.animationTimeout = null;
