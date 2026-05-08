@@ -1,1 +1,1 @@
-
+Windows form c#, mySql aplikacija koja sluzi za kreiranje faktura i cuvanje, personalizovana firmi Forel inženjering.doo
