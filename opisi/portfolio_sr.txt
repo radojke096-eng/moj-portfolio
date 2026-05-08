@@ -1,1 +1,3 @@
 
+Sistemski Portfolio V3 #github #open source
+Moderno web rešenje izgrađeno pomoću čistog JavaScript-a (Vanilla JS). Implementirana OOP arhitektura sa asinhronim učitavanjem podataka (Fetch API) i dinamičkom manipulacijom DOM-a za prikaz inženjerskih projekata.
