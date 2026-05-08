@@ -1,1 +1,2 @@
-
+<b>Arduino IoT - Automation & Control</b><br>
+Design and implementation of systems based on the ATmega328 microcontroller. Focused on real-time sensor integration, analog signal processing, and actuator control. The project covers controller architecture, memory organization, and the C++ development cycle via Arduino IDE.<br><br>
