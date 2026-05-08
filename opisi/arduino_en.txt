@@ -1,0 +1,2 @@
+Arduino IoT - Automation & Control
+Embedded systems development using Arduino and C++. Features real-time sensor integration, actuator control, and hardware process automation logic.
