@@ -1,3 +1,3 @@
 <b>Forel ERP - Sistem za fakturisanje</b><br>
 C# WinForms aplikacija sa MySQL bazom podataka. Omogućava automatizovanu izradu faktura, upravljanje bazom klijenata i generisanje PDF dokumentacije.<br><br>
-<a href="https://drive.google.com/drive/folders/1d_4J0gpxqa4qouSDmohn4L1F5BhMpTGo" target="_blank" style="color:#00f2ff; text-decoration:none; border:1px solid #00f2ff; padding:2px 5px;">📁 DOKUMENTACIJA</a>
+<a href="https://drive.google.com/drive/folders/1d_4J0gpxqa4qouSDmohn4L1F5BhMpTGo" target="_blank" style="color:#00f2ff; text-decoration:none; border:1px solid #00f2ff; padding:2px 5px;">📁 DOKUMENTACIJA/DOCUMENTS</a>
