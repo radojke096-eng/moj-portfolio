@@ -1,0 +1,2 @@
+ardArduino IoT - Automatizacija i Kontrola
+Razvoj ugrađenih sistema pomoću Arduino platforme i C++ jezika. Projekat obuhvata rad sa senzorima u realnom vremenu, upravljanje aktuatorima i razvoj logike za automatizaciju hardverskih procesa.
