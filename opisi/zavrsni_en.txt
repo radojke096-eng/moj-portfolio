@@ -1,0 +1,4 @@
+Forel ERP - Invoicing System
+C# WinForms application integrated with MySQL.
+Automates invoice creation, client database management, 
+and PDF generation.
