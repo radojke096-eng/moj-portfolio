@@ -1,3 +1,1 @@
-<b>Arduino IoT - Automatizacija i Kontrola</b><br>
-Projektovanje i implementacija sistema zasnovanih na ATmega328 mikrokontroleru. Fokus na integraciji senzora u realnom vremenu, obradi analognih signala i kontroli izvršnih elemenata. Rad obuhvata arhitekturu kontrolera, memorijsku organizaciju i razvojni ciklus kroz C++ (Arduino IDE).
-<a href="https://docs.google.com/document/d/1Id8EQkVjUVws5mb8_EkDBA13yLbBDYIt/edit?usp=drivesdk&ouid=107920031003841307596&rtpof=true&sd=true" target="_blank" style="color:#00f2ff; text-decoration:none; border:1px solid #00f2ff; padding:2px 5px;">📁 DOKUMENTACIJA RADA</a>
+
