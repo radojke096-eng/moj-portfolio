@@ -1,10 +1,16 @@
 class ProjectBlock {
-  constructor(folderName, totalImages, containerId, descSr, descEn) {
+  constructor(folderName, totalImages, containerId, fileSr, fileEn) {
     this.folderName = folderName;
     this.totalImages = totalImages;
     this.containerId = containerId;
-    this.descSr = descSr;
-    this.descEn = descEn;
+    // Putanje do .txt fajlova
+    this.fileSr = fileSr;
+    this.fileEn = fileEn;
+    
+    // Inicijalno prazni opisi (popuniće ih init)
+    this.descSr = "Učitavanje...";
+    this.descEn = "Loading...";
+
     this.currentImageIndex = 0;
     this.isPlaying = false;
     this.animationTimeout = null;
@@ -14,10 +20,31 @@ class ProjectBlock {
     this.displayMs = this.baseDisplayMs;
     this.pauseMs = this.basePauseMs;
     this.images = []; 
+    
+    // Pokretanje asinhrone inicijalizacije
     this.init();
   }
 
-  init() {
+  async init() {
+    try {
+      // Paralelno učitavanje tekstova iz fajlova
+      const [resSr, resEn] = await Promise.all([
+        fetch(this.fileSr),
+        fetch(this.fileEn)
+      ]);
+
+      // Provera da li su fajlovi uspešno nađeni
+      if (!resSr.ok || !resEn.ok) throw new Error("Fajl nije pronađen");
+
+      this.descSr = await resSr.text();
+      this.descEn = await resEn.text();
+    } catch (err) {
+      console.error("Greška pri učitavanju opisa:", err);
+      this.descSr = "[Greška pri učitavanju opisa]";
+      this.descEn = "[Error loading description]";
+    }
+
+    // Tek nakon učitavanja teksta pravimo strukturu
     this.createDOMStructure();
     this.cacheImageElements();
     this.attachEventListeners();
@@ -26,10 +53,12 @@ class ProjectBlock {
   createDOMStructure() {
     const container = document.getElementById(this.containerId);
     if (!container) return;
+    
     let imagesHtml = '';
     for (let i = 1; i <= this.totalImages; i++) {
         imagesHtml += `<img src="Assets/${this.folderName}/img${i}.png" class="project-image ${i === 1 ? 'active' : ''}" data-index="${i-1}">`;
     }
+    
     container.innerHTML = `
       <div class="project-block" id="block-${this.folderName}">
         <div class="image-container">${imagesHtml}</div>
@@ -56,14 +85,34 @@ class ProjectBlock {
 
   attachEventListeners() {
     if (!this.block) return;
+    // Mouse hover efekat
     this.block.addEventListener('mouseenter', () => this.play());
     this.block.addEventListener('mouseleave', () => this.stop());
-    this.playBtn.addEventListener('click', () => this.isPlaying ? this.pause() : this.play());
-    this.normalBtn.addEventListener('click', () => this.setSpeed('normal'));
-    this.doubleBtn.addEventListener('click', () => this.setSpeed('2x'));
+    
+    // Click kontrole
+    this.playBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Sprečava ometanje hover efekta
+        this.isPlaying ? this.pause() : this.play();
+    });
+    
+    this.normalBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setSpeed('normal');
+    });
+    
+    this.doubleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setSpeed('2x');
+    });
   }
 
-  play() { if (this.isPlaying) return; this.isPlaying = true; this.updateUI(); this.cycle(); }
+  play() { 
+    if (this.isPlaying) return; 
+    this.isPlaying = true; 
+    this.updateUI(); 
+    this.cycle(); 
+  }
+
   cycle() {
     if (!this.isPlaying) return;
     this.showImage(this.currentImageIndex);
@@ -72,17 +121,35 @@ class ProjectBlock {
       this.cycle();
     }, this.displayMs + this.pauseMs);
   }
-  pause() { this.isPlaying = false; clearTimeout(this.animationTimeout); this.updateUI(); }
-  stop() { this.pause(); this.currentImageIndex = 0; this.showImage(0); }
-  showImage(index) { this.images.forEach((img, i) => img.classList.toggle('active', i === index)); }
+
+  pause() { 
+    this.isPlaying = false; 
+    clearTimeout(this.animationTimeout); 
+    this.updateUI(); 
+  }
+
+  stop() { 
+    this.pause(); 
+    this.currentImageIndex = 0; 
+    this.showImage(0); 
+  }
+
+  showImage(index) { 
+    this.images.forEach((img, i) => img.classList.toggle('active', i === index)); 
+  }
+
   setSpeed(type) {
     this.speed = type;
     const m = type === '2x' ? 0.5 : 1;
     this.displayMs = this.baseDisplayMs * m;
     this.pauseMs = this.basePauseMs * m;
     this.updateUI();
-    if (this.isPlaying) { clearTimeout(this.animationTimeout); this.cycle(); }
+    if (this.isPlaying) { 
+        clearTimeout(this.animationTimeout); 
+        this.cycle(); 
+    }
   }
+
   updateUI() {
     this.playBtn.innerHTML = this.isPlaying ? '⏸ Pause' : '▶ Play';
     this.normalBtn.classList.toggle('active', this.speed === 'normal');
