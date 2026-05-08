@@ -1,0 +1,2 @@
+System Portfolio V3 #gitHub #open source
+Modern web solution built with Vanilla JavaScript. Implements OOP architecture with asynchronous data loading (Fetch API) and dynamic DOM manipulation for engineering project presentation.
